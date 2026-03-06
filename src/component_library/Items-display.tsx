@@ -31,12 +31,10 @@ export default function ItemsDisplay({ products }: { products: Product[] }) {
             height: "100%",
             position: "relative",
             overflow: "hidden",
-            // Lift card on hover
             transition: "box-shadow 0.25s ease",
             "&:hover": {
                 boxShadow: 8,
             },
-            // Show overlay when card is hovered
             "&:hover .hover-overlay": {
                 opacity: 1,
                 transform: "translateY(0)",
@@ -51,7 +49,6 @@ export default function ItemsDisplay({ products }: { products: Product[] }) {
                     sx={{ objectFit: "contain", p: 1, backgroundColor: "#f9f9f9" }}
                 />
 
-                {/* Always-visible footer: title + price */}
                 <Box sx={{ px: 1.5, py: 1.25 }}>
                     <Typography
                         variant="body2"
@@ -72,7 +69,6 @@ export default function ItemsDisplay({ products }: { products: Product[] }) {
                 </Box>
             </CardActionArea>
 
-            {/* Hover overlay — slides up from bottom */}
             <Box
                 className="hover-overlay"
                 sx={{
@@ -80,22 +76,18 @@ export default function ItemsDisplay({ products }: { products: Product[] }) {
                     bottom: 0,
                     left: 0,
                     right: 0,
-                    // Semi-transparent dark panel
                     bgcolor: "rgba(71, 71, 71, 0.88)",
                     backdropFilter: "blur(4px)",
                     color: "white",
                     px: 2,
                     py: 1.75,
-                    // Slide-in transition
                     opacity: 0,
                     transform: "translateY(12px)",
                     transition: "opacity 0.25s ease, transform 0.25s ease",
-                    // Pointer events only when visible
                     pointerEvents: "none",
                     borderRadius: "0 0 10px 10px",
                 }}
             >
-                {/* Category badge */}
                 <Typography
                     variant="caption"
                     sx={{
@@ -112,7 +104,6 @@ export default function ItemsDisplay({ products }: { products: Product[] }) {
                     {product.category}
                 </Typography>
 
-                {/* Description — clamped to 3 lines */}
                 <Typography
                     variant="caption"
                     sx={{
@@ -144,7 +135,8 @@ export default function ItemsDisplay({ products }: { products: Product[] }) {
 
     return (
         <>
-            {/* ── MOBILE: 2-column grid ── */}
+
+            {/* Mobile */}
             <Box sx={{
                 display: { xs: "grid", md: "none" },
                 gridTemplateColumns: "1fr 1fr",
@@ -157,7 +149,7 @@ export default function ItemsDisplay({ products }: { products: Product[] }) {
                 ))}
             </Box>
 
-            {/* ── DESKTOP: horizontal scroll with arrow buttons ── */}
+            {/* ── DESKTOP*/}
             <Box sx={{
                 display: { xs: "none", md: "flex" },
                 alignItems: "center",
@@ -167,7 +159,6 @@ export default function ItemsDisplay({ products }: { products: Product[] }) {
             }}>
 
 
-                {/* Scrollable row */}
                 <Box
 
                     sx={{
@@ -187,7 +178,6 @@ export default function ItemsDisplay({ products }: { products: Product[] }) {
                     ))}
                 </Box>
 
-                {/* Right button */}
 
             </Box>
         </>

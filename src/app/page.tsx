@@ -21,7 +21,6 @@ export default async function Home() {
         <HeroCarousel />
       </Box>
 
-      {/* Section header */}
       <Box sx={{
         display: "flex",
         justifyContent: "space-between",

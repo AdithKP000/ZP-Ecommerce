@@ -21,7 +21,7 @@ export const getAllProducts = async (): Promise<Product[]> => {
         return filtered
     }
     catch (error) {
-        console.log(error)
+        console.log("An error occured while Getting all the product data", error)
         return []
     }
 }

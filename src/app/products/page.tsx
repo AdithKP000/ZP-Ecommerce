@@ -13,7 +13,6 @@ export default async function ProductsPage() {
                 All Products ({products.length})
             </Typography>
 
-            {/* On this page, show all products in a wrapping grid */}
             <Box sx={{
                 display: "grid",
                 gridTemplateColumns: {
@@ -40,7 +39,7 @@ export default async function ProductsPage() {
                             bgcolor: "#f9f9f9",
                             p: 1,
                         }}>
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
+
                             <img
                                 src={product.image}
                                 alt={product.title}
