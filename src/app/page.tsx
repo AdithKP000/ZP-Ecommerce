@@ -1,10 +1,12 @@
 import ItemsDisplay from "@/component_library/Items-display";
 import HeroCarousel from "../component_library/HeroCarousel";
+import GenderCategoryBanner from "@/component_library/GenderCategoryBanner";
+import BrandSpotlightBanner from "@/component_library/BrandSpotlightBanner";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
-import { getAllProducts } from "@/core_components/api/productData";
-import { Product } from "./types/types";
+import { getAllNewProducts, getFeaturedProducts } from "@/core_components/api/productData";
+import { Product, ProductResponse } from "../types/types";
 import { Montserrat } from "next/font/google";
 import { IconButton } from "@mui/material";
 import { ArrowForward } from "@mui/icons-material";
@@ -12,14 +14,20 @@ import { ArrowForward } from "@mui/icons-material";
 const montserrat = Montserrat({ subsets: ["latin"] });
 
 export default async function Home() {
-  const allProducts: Product[] = await getAllProducts();
-  const previewProducts = allProducts.slice(0, 4);
+  const allProducts: ProductResponse[] = await getFeaturedProducts();
+  const previewProducts = allProducts.slice(0, 6);
 
+  // const mostSoldItems: Product[] = await mostSold();
+  // const previewMostSoldItems = mostSoldItems.slice(0, 4)
   return (
     <>
       <Box sx={{ mb: 2 }}>
         <HeroCarousel />
       </Box>
+
+      {/* <BrandSpotlightBanner /> */}
+
+
 
       <Box sx={{
         display: "flex",
@@ -29,7 +37,13 @@ export default async function Home() {
         mt: 4,
         mb: 1,
       }}>
-        <Typography variant="h4" fontWeight={700} fontFamily={montserrat.style.fontFamily}>
+        <Typography variant="h4" sx={{
+          textAlign: "left",
+          flex: 1
+        }}
+          fontSize={{ xs: "1.5rem", md: "2rem" }}
+          fontWeight={700}
+          fontFamily={montserrat.style.fontFamily}>
           Featured Products
         </Typography>
 
@@ -57,6 +71,56 @@ export default async function Home() {
       </Box>
 
       <ItemsDisplay products={previewProducts} />
+
+
+      {/* 
+      <Box sx={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        px: 2,
+        py: 2,
+        mt: 5,
+        backgroundColor: "#f9f9f9"
+      }}>
+        <Typography variant="h4"
+          sx={{
+            textAlign: "center",
+            flex: 1
+          }}
+          fontSize={{ xs: "1.5rem", md: "2rem" }}
+          fontWeight={700}
+          fontFamily={montserrat.style.fontFamily}>
+          Most Sold Products
+        </Typography>
+
+        <Link
+          href="/products"
+          style={{
+            fontSize: "0.875rem",
+            fontWeight: 500,
+            padding: "4px 14px",
+            borderRadius: "8px",
+            margin: 4,
+            color: '#1111d4',
+            textDecoration: "none",
+          }}
+        >
+
+          View All
+          <IconButton sx={{
+            color: "#1111d4"
+          }}>
+            <ArrowForward />
+          </IconButton>
+        </Link>
+
+      </Box>
+      <Box sx={{ backgroundColor: "#f9f9f9" }}>
+        <ItemsDisplay products={previewMostSoldItems} />
+      </Box>
+
+      <GenderCategoryBanner /> */}
     </>
   );
 }

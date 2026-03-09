@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Ecommerce App",
-  description: "Modern E-commerce Application",
+  title: "COSMO",
+  description: "Your Online Cosmetic Store",
 };
 
 export default function RootLayout({

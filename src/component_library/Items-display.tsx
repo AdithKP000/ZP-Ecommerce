@@ -1,184 +1,241 @@
 "use client";
 
-import { useRef } from "react";
+import { useState } from "react";
 import Box from "@mui/material/Box";
-import Card from '@mui/material/Card';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import CardActionArea from '@mui/material/CardActionArea';
-import IconButton from '@mui/material/IconButton';
-import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import StarIcon from '@mui/icons-material/Star';
+import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import StarIcon from "@mui/icons-material/Star";
+import StarHalfIcon from "@mui/icons-material/StarHalf";
+import StarOutlineIcon from "@mui/icons-material/StarOutline";
 
-import { Product } from "@/app/types/types";
+import { ProductResponse } from "@/types/types";
 
-export default function ItemsDisplay({ products }: { products: Product[] }) {
-    const scrollRef = useRef<HTMLDivElement>(null);
+// functionality to display the star rating of the product
+function StarRow({ rating }: { rating: number }) {
+    return (
+        <Box sx={{ display: "flex", alignItems: "center", gap: 0.25 }}>
+            {[1, 2, 3, 4, 5].map((i) => {
+                if (rating >= i) return <StarIcon key={i} sx={{ fontSize: 14, color: "#f5a623" }} />;
+                if (rating >= i - 0.5) return <StarHalfIcon key={i} sx={{ fontSize: 14, color: "#f5a623" }} />;
+                return <StarOutlineIcon key={i} sx={{ fontSize: 14, color: "#f5a623" }} />;
+            })}
+        </Box>
+    );
+}
 
-    const scroll = (direction: "left" | "right") => {
-        if (scrollRef.current) {
-            scrollRef.current.scrollBy({
-                left: direction === "left" ? -500 : 500,
-                behavior: "smooth",
-            });
-        }
-    };
+function WishlistButton() {
+    const [liked, setLiked] = useState(false);
+    return (
+        <IconButton
+            size="small"
+            onClick={(e) => { e.stopPropagation(); setLiked((v) => !v); }}
+            sx={{
+                bgcolor: "white",
+                boxShadow: "0 1px 4px rgba(0,0,0,0.12)",
+                width: 32,
+                height: 32,
+                "&:hover": { bgcolor: "white" },
+            }}
+        >
+            {liked
+                ? <FavoriteIcon sx={{ fontSize: 16, color: "#e53935" }} />
+                : <FavoriteBorderIcon sx={{ fontSize: 16, color: "#888" }} />}
+        </IconButton>
+    );
+}
 
-    const ProductCard = ({ product }: { product: Product }) => (
-        <Card sx={{
-            borderRadius: "10px",
-            height: "100%",
-            position: "relative",
-            overflow: "hidden",
-            transition: "box-shadow 0.25s ease",
-            "&:hover": {
-                boxShadow: 8,
-            },
-            "&:hover .hover-overlay": {
-                opacity: 1,
-                transform: "translateY(0)",
-            },
-        }}>
-            <CardActionArea sx={{ backgroundColor: "white", borderRadius: "10px", height: "100%" }}>
-                <CardMedia
-                    component="img"
-                    height="300"
-                    image={product.image}
-                    alt={product.title}
-                    sx={{ objectFit: "contain", p: 1, backgroundColor: "#f9f9f9" }}
-                />
+/* ── product card ── */
+function ProductCard({ product }: { product: ProductResponse }) {
+    const discountedPrice = product.discountPercentage
+        ? (product.price * (1 - product.discountPercentage / 100)).toFixed(2)
+        : null;
 
-                <Box sx={{ px: 1.5, py: 1.25 }}>
-                    <Typography
-                        variant="body2"
-                        fontWeight={600}
-                        sx={{
-                            display: "-webkit-box",
-                            WebkitLineClamp: 2,
-                            WebkitBoxOrient: "vertical",
-                            overflow: "hidden",
-                            mb: 0.5,
-                        }}
-                    >
-                        {product.title}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                        ${product.price}
-                    </Typography>
-                </Box>
-            </CardActionArea>
-
+    return (
+        <Box
+            sx={{
+                minWidth: 200,
+                maxWidth: 260,
+                flexShrink: 0,
+                cursor: "pointer",
+                "&:hover .card-img-wrap": {
+                    boxShadow: "0 6px 20px rgba(0,0,0,0.10)",
+                },
+            }}
+        >
+            {/* image area */}
             <Box
-                className="hover-overlay"
+                className="card-img-wrap"
                 sx={{
-                    position: "absolute",
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    bgcolor: "rgba(71, 71, 71, 0.88)",
-                    backdropFilter: "blur(4px)",
-                    color: "white",
-                    px: 2,
-                    py: 1.75,
-                    opacity: 0,
-                    transform: "translateY(12px)",
-                    transition: "opacity 0.25s ease, transform 0.25s ease",
-                    pointerEvents: "none",
-                    borderRadius: "0 0 10px 10px",
+                    position: "relative",
+                    bgcolor: "#f5f5f5",
+                    borderRadius: "14px",
+                    overflow: "hidden",
+                    aspectRatio: "1 / 1",
+                    transition: "box-shadow 0.25s ease",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
                 }}
             >
+                {product.discountPercentage > 0 && (
+                    <Box
+                        sx={{
+                            position: "absolute",
+                            top: 10,
+                            left: 10,
+                            bgcolor: "#e53935",
+                            color: "white",
+                            borderRadius: "20px",
+                            px: 1,
+                            py: 0.25,
+                            fontSize: "0.7rem",
+                            fontWeight: 700,
+                            lineHeight: 1.4,
+                            zIndex: 2,
+                        }}
+                    >
+                        -{Math.round(product.discountPercentage)}%
+                    </Box>
+                )}
+
+                <Box sx={{ position: "absolute", top: 8, right: 8, zIndex: 2 }}>
+                    <WishlistButton />
+                </Box>
+
+                {/* product image */}
+                <Box
+                    component="img"
+                    src={product.thumbnail}
+                    alt={product.title}
+                    sx={{
+                        width: "75%",
+                        height: "75%",
+                        objectFit: "contain",
+                        mixBlendMode: "multiply",
+                    }}
+                />
+            </Box>
+
+            <Box sx={{ pt: 1.25, px: 0.5 }}>
+                {/* stars + review count */}
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.75, mb: 0.5 }}>
+                    <StarRow rating={product.rating} />
+                    <Typography variant="caption" sx={{ color: "#666", fontSize: "0.7rem" }}>
+                        - {product.reviews.length} out of 5
+                    </Typography>
+                </Box>
+
                 <Typography
                     variant="caption"
                     sx={{
-                        display: "inline-block",
-                        bgcolor: "rgba(255,255,255,0.15)",
-                        borderRadius: "4px",
-                        px: 0.75,
-                        py: 0.25,
-                        mb: 0.75,
-                        textTransform: "capitalize",
-                        letterSpacing: "0.04em",
+                        color: "#888",
+                        fontSize: "0.68rem",
+                        textTransform: "uppercase",
+                        letterSpacing: "0.03em",
+                        display: "block",
+                        mb: 0.25,
                     }}
                 >
                     {product.category}
                 </Typography>
 
                 <Typography
-                    variant="caption"
+                    variant="body2"
+                    fontWeight={700}
                     sx={{
                         display: "-webkit-box",
-                        WebkitLineClamp: 3,
+                        WebkitLineClamp: 2,
                         WebkitBoxOrient: "vertical",
                         overflow: "hidden",
-                        lineHeight: 1.5,
-                        color: "rgba(255,255,255,0.82)",
-                        mb: 1,
+                        lineHeight: 1.35,
+                        fontSize: "0.82rem",
+                        mb: 0.75,
+                        color: "#111",
                     }}
                 >
-                    {product.description}
+                    {product.title}
                 </Typography>
 
-                {/* Rating row */}
-                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
-                    <StarIcon sx={{ fontSize: 14, color: "#FFD700" }} />
-                    <Typography variant="caption" fontWeight={600}>
-                        {product.rating.rate}
-                    </Typography>
-                    <Typography variant="caption" sx={{ color: "rgba(255,255,255,0.55)" }}>
-                        ({product.rating.count} reviews)
-                    </Typography>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1, flexWrap: "wrap" }}>
+                    {discountedPrice ? (
+                        <>
+                            <Typography
+                                variant="caption"
+                                sx={{
+                                    textDecoration: "line-through",
+                                    color: "#aaa",
+                                    fontSize: "0.78rem",
+                                }}
+                            >
+                                ${product.price.toFixed(2)}
+                            </Typography>
+                            <Typography
+                                variant="body2"
+                                fontWeight={700}
+                                sx={{ color: "#e53935", fontSize: "0.88rem" }}
+                            >
+                                ${discountedPrice}
+                            </Typography>
+                        </>
+                    ) : (
+                        <Typography variant="body2" fontWeight={700} sx={{ fontSize: "0.88rem" }}>
+                            ${product.price.toFixed(2)}
+                        </Typography>
+                    )}
                 </Box>
             </Box>
-        </Card>
+        </Box>
     );
+}
 
+// until this are the componentes which we use to display the products
+
+export default function ItemsDisplay({ products }: { products: ProductResponse[] }) {
     return (
         <>
-
-            {/* Mobile */}
-            <Box sx={{
-                display: { xs: "grid", md: "none" },
-                gridTemplateColumns: "1fr 1fr",
-                gap: 2,
-                px: 2,
-                py: 2,
-            }}>
+            {/* Mobile — 2-column grid */}
+            <Box
+                sx={{
+                    display: { xs: "grid", md: "none" },
+                    gridTemplateColumns: "1fr 1fr",
+                    gap: 2,
+                    px: 2,
+                    py: 2,
+                }}
+            >
                 {products.map((product) => (
                     <ProductCard key={product.id} product={product} />
                 ))}
             </Box>
 
-            {/* ── DESKTOP*/}
-            <Box sx={{
-                display: { xs: "none", md: "flex" },
-                alignItems: "center",
-                position: "relative",
-                px: 1,
-                py: 2,
-            }}>
-
-
+            {/* Desktop — horizontal scroll with peek effect */}
+            <Box
+                sx={{
+                    display: { xs: "none", md: "block" },
+                    position: "relative",
+                    py: 2,
+                }}
+            >
                 <Box
-
                     sx={{
                         display: "flex",
                         flexDirection: "row",
-                        alignItems: "center",
-                        justifyContent: "center",
                         gap: 2,
-                        flex: 1,
-
+                        overflowX: "auto",
+                        px: 2,
+                        pb: 1,
+                        scrollbarWidth: "none",
+                        "&::-webkit-scrollbar": { display: "none" },
+                        /* peek: last card slightly cut off to hint scrollability */
+                        maskImage: "linear-gradient(to right, black 92%, transparent 100%)",
                     }}
                 >
                     {products.map((product) => (
-                        <Box key={product.id} sx={{ minWidth: 220, maxWidth: 400, flexShrink: 0 }}>
-                            <ProductCard product={product} />
-                        </Box>
+                        <ProductCard key={product.id} product={product} />
                     ))}
                 </Box>
-
-
             </Box>
         </>
     );

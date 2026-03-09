@@ -1,16 +1,36 @@
-import ItemsDisplay from "@/component_library/Items-display";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { getAllProducts } from "@/core_components/api/productData";
-import { Product } from "../types/types";
+import { getAllProducts, getProductsByCategory } from "@/core_components/api/productData";
+import { ProductCard } from "../../component_library/ProductCard";
 
-export default async function ProductsPage() {
-    const products: Product[] = await getAllProducts();
+// Friendly display names for each slug
+const CATEGORY_LABELS: Record<string, string> = {
+    "beauty": "Beauty",
+    "fragrances": "Fragrances",
+    "furniture": "Furniture",
+}
+
+interface Props {
+    searchParams: Promise<{ category?: string }>
+}
+
+export default async function ProductsPage({ searchParams }: Props) {
+    const { category: categorySlug } = await searchParams;
+
+    // If a category slug is in the URL, fetch just that category.
+    // Otherwise fetch everything.
+    const products = categorySlug
+        ? await getProductsByCategory(categorySlug)
+        : await getAllProducts();
+
+    const pageTitle = categorySlug
+        ? CATEGORY_LABELS[categorySlug] ?? "Products"
+        : "All Products";
 
     return (
         <Box sx={{ px: 2, py: 3 }}>
             <Typography variant="h5" fontWeight={700} sx={{ mb: 2 }}>
-                All Products ({products.length})
+                {pageTitle} ({products.length})
             </Typography>
 
             <Box sx={{
@@ -20,54 +40,12 @@ export default async function ProductsPage() {
                     sm: "1fr 1fr 1fr",
                     md: "1fr 1fr 1fr 1fr",
                 },
-                gap: 2,
+                gap: 1,
+                pl: 2,
+                pr: 2,
             }}>
                 {products.map((product) => (
-                    <Box key={product.id} sx={{
-                        borderRadius: "10px",
-                        overflow: "hidden",
-                        boxShadow: 1,
-                        bgcolor: "white",
-                        display: "flex",
-                        flexDirection: "column",
-                    }}>
-                        <Box sx={{
-                            height: 200,
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            bgcolor: "#f9f9f9",
-                            p: 1,
-                        }}>
-
-                            <img
-                                src={product.image}
-                                alt={product.title}
-                                style={{ maxHeight: "100%", maxWidth: "100%", objectFit: "contain" }}
-                            />
-                        </Box>
-                        <Box sx={{ p: 1.5 }}>
-                            <Typography
-                                variant="body2"
-                                fontWeight={600}
-                                sx={{
-                                    display: "-webkit-box",
-                                    WebkitLineClamp: 2,
-                                    WebkitBoxOrient: "vertical",
-                                    overflow: "hidden",
-                                    mb: 0.5,
-                                }}
-                            >
-                                {product.title}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                ${product.price}
-                            </Typography>
-                            <Typography variant="caption" color="text.disabled" sx={{ textTransform: "capitalize" }}>
-                                {product.category}
-                            </Typography>
-                        </Box>
-                    </Box>
+                    <ProductCard key={product.id} product={product} />
                 ))}
             </Box>
         </Box>

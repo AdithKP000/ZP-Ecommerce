@@ -1,286 +1,318 @@
-"use client"
-import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import InputBase from '@mui/material/InputBase';
-import Badge from '@mui/material/Badge';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
-import MoreIcon from '@mui/icons-material/MoreVert';
-import Divider from '@mui/material/Divider';
+"use client";
+import * as React from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Drawer from "@mui/material/Drawer";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemText from "@mui/material/ListItemText";
+import Divider from "@mui/material/Divider";
+import Badge from "@mui/material/Badge";
+import SearchIcon from "@mui/icons-material/Search";
+import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
+import LanguageIcon from "@mui/icons-material/Language";
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
+import Link from "next/link";
 
-const Search = styled('div')(({ theme }) => ({
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: theme.palette.searchBar.bg,
-    '&:hover': {
-        backgroundColor: theme.palette.searchBar.bgHover,
-    },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-        marginLeft: theme.spacing(3),
-        width: 'auto',
-    },
-}));
+interface NavLink {
+    label: string;
+    href: string;
+    highlight?: boolean;
+}
 
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: theme.palette.text.secondary,
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: theme.palette.text.primary,
-    '& .MuiInputBase-input': {
-        padding: theme.spacing(1, 1, 1, 0),
-        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-        transition: theme.transitions.create('width'),
-        width: '100%',
-        [theme.breakpoints.up('md')]: {
-            width: '22ch',
-        },
-    },
-}));
-
-const navLinks = ['Shop All', 'Men', 'Women', 'Accessories'];
+const navLinks: NavLink[] = [
+    { label: "New Arrivals", href: "/products?filter=new" },
+    { label: "Brands", href: "/products?filter=brands" },
+    { label: "Skincare", href: "/products?category=skincare" },
+    { label: "Makeup", href: "/products?category=makeup" },
+    { label: "Hair", href: "/products?category=hair" },
+    { label: "Body", href: "/products?category=body" },
+    { label: "Fragrance", href: "/products?category=fragrance" },
+    { label: "Home", href: "/products?category=home" },
+    { label: "Sale", href: "/products?filter=sale", highlight: true },
+];
 
 export default function Navbar() {
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
-        React.useState<null | HTMLElement>(null);
-    const [mobileNavMenu, setMobileNavMenu] = React.useState<null | HTMLElement>(null);
+    const [drawerOpen, setDrawerOpen] = React.useState(false);
 
-    const isMenuOpen = Boolean(anchorEl);
-    const isNavbarOpen = Boolean(mobileNavMenu);
-    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-    const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleMobileMenuClose = () => {
-        setMobileMoreAnchorEl(null);
-    };
-
-    const handleNavbarClose = () => {
-        setMobileNavMenu(null);
-    };
-
-    const handleMenuClose = () => {
-        setAnchorEl(null);
-        handleMobileMenuClose();
-    };
-
-    const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-        setMobileMoreAnchorEl(event.currentTarget);
-    };
-
-    const handleMobileNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-        setMobileNavMenu(event.currentTarget);
-    };
-
-    const menuId = 'primary-search-account-menu';
-    const renderMenu = (
-        <Menu
-            anchorEl={anchorEl}
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-            id={menuId}
-            keepMounted
-            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-            open={isMenuOpen}
-            onClose={handleMenuClose}
-        >
-            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-            <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-        </Menu>
-    );
-
-    const renderNavbar = (
-        <Menu
-            anchorEl={mobileNavMenu}
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-            id="mobile-nav-menu"
-            keepMounted
-            transformOrigin={{ vertical: 'top', horizontal: 'left' }}
-            open={isNavbarOpen}
-            onClose={handleNavbarClose}
-        >
-            {navLinks.map((page, index) => (
-                <MenuItem key={index} onClick={handleNavbarClose}>
-                    {page}
-                </MenuItem>
-            ))}
-        </Menu>
-    );
-
-    const mobileMenuId = 'primary-search-account-menu-mobile';
-    const renderMobileMenu = (
-        <Menu
-            anchorEl={mobileMoreAnchorEl}
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-            id={mobileMenuId}
-            keepMounted
-            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-            open={isMobileMenuOpen}
-            onClose={handleMobileMenuClose}
-        >
-            <MenuItem>
-                <IconButton size="large" aria-label="cart" color="inherit">
-                    <Badge badgeContent={3} color="error">
-                        <ShoppingBagOutlinedIcon />
-                    </Badge>
-                </IconButton>
-                <p>Cart</p>
-            </MenuItem>
-            <MenuItem onClick={handleProfileMenuOpen}>
-                <IconButton
-                    size="large"
-                    aria-label="account of current user"
-                    aria-controls={menuId}
-                    aria-haspopup="true"
-                    color="inherit"
-                >
-                    <AccountCircle />
-                </IconButton>
-                <p>Profile</p>
-            </MenuItem>
-        </Menu>
-    );
+    const toggleDrawer = (open: boolean) => () => setDrawerOpen(open);
 
     return (
-        <Box sx={{ flexGrow: 1 }}>
+        <>
             <AppBar
-                position="static"
+                position="sticky"
                 elevation={0}
                 sx={{
-                    backgroundColor: 'white',
-                    color: 'black',
-                    borderBottom: '1px solid',
-                    borderColor: 'rgba(0,0,0,0.08)',
+                    backgroundColor: "#fff",
+                    color: "#111",
+                    borderBottom: "1px solid rgba(0,0,0,0.09)",
+                    top: 0,
+                    zIndex: 1100,
                 }}
             >
-                <Toolbar sx={{ minHeight: { xs: 64, sm: 76 }, px: { xs: 2, sm: 4 } }}>
-                    {/* Mobile hamburger */}
+                {/* ── ROW 1: Brand + Icons ─────────────────────────────────── */}
+                <Toolbar
+                    disableGutters
+                    sx={{
+                        px: { xs: 2, sm: 4, md: 6 },
+                        minHeight: { xs: 56, sm: 64 },
+                        display: "flex",
+                        alignItems: "center",
+                        position: "relative",
+                    }}
+                >
+                    {/* Mobile hamburger (left anchor) */}
                     <IconButton
-                        size="large"
-                        edge="start"
-                        color="inherit"
-                        aria-label="open drawer"
-                        onClick={handleMobileNavMenu}
-                        sx={{ mr: 1, display: { lg: 'none' } }}
+                        aria-label="open menu"
+                        onClick={toggleDrawer(true)}
+                        size="small"
+                        sx={{ display: { xs: "flex", md: "none" }, color: "#111" }}
                     >
                         <MenuIcon />
                     </IconButton>
 
-                    {/* Brand */}
-                    <Typography
-                        variant="h5"
-                        noWrap
-                        component="div"
+                    {/* Brand name — absolutely centered */}
+                    <Box
                         sx={{
-                            fontWeight: 900,
-                            color: '#1111d4',
-                            letterSpacing: 1,
-                            mr: 3,
-                            flexShrink: 0,
+                            position: "absolute",
+                            left: "50%",
+                            transform: "translateX(-50%)",
+                            pointerEvents: "none",
                         }}
                     >
-                        LUXE
-                    </Typography>
-
-                    {/* Desktop nav links */}
-                    <Box sx={{ display: { xs: 'none', lg: 'flex' }, gap: 0.5 }}>
-                        {navLinks.map((page) => (
-                            <MenuItem
-                                key={page}
+                        <Link href="/" style={{ textDecoration: "none", pointerEvents: "auto" }}>
+                            <Typography
+                                variant="h5"
+                                component="span"
                                 sx={{
-                                    borderRadius: 2,
-                                    px: 2,
-                                    py: 1,
-                                    '&:hover': { backgroundColor: 'rgba(0,0,0,0.05)' },
+                                    fontWeight: 900,
+                                    fontSize: { xs: "1.25rem", sm: "1.5rem" },
+                                    letterSpacing: { xs: 3, sm: 5 },
+                                    color: "#111",
+
                                 }}
                             >
-                                <Typography
-                                    sx={{
-                                        fontSize: '0.9rem',
-                                        fontWeight: 600,
-                                        color: 'text.primary',
-                                        whiteSpace: 'nowrap',
-                                    }}
-                                >
-                                    {page}
-                                </Typography>
-                            </MenuItem>
-                        ))}
+                                COSMO
+                            </Typography>
+                        </Link>
                     </Box>
 
+                    {/* Spacer */}
                     <Box sx={{ flexGrow: 1 }} />
 
-                    {/* Search bar */}
-                    <Search>
-                        <SearchIconWrapper>
+                    {/* Right icons */}
+                    <Box
+                        sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: { xs: 0, sm: 0.5 },
+                        }}
+                    >
+                        {/* Language — desktop only */}
+                        <Box sx={{ display: { xs: "none", sm: "flex" }, alignItems: "center", mr: 0.5 }}>
+                            <IconButton size="small" aria-label="language" sx={{ color: "#333" }}>
+                                <LanguageIcon fontSize="small" />
+                            </IconButton>
+                            <Typography variant="caption" sx={{ fontWeight: 600, fontSize: "0.7rem", color: "#333", ml: -0.5 }}>
+                                EN
+                            </Typography>
+                        </Box>
+
+                        {/* Search */}
+                        <IconButton size="small" aria-label="search" sx={{ color: "#333" }}>
                             <SearchIcon fontSize="small" />
-                        </SearchIconWrapper>
-                        <StyledInputBase
-                            className="search-input"
-                            placeholder="Search products…"
-                            inputProps={{ 'aria-label': 'search' }}
-                        />
-                    </Search>
+                        </IconButton>
 
-                    {/* Desktop icons: Cart + Profile */}
-                    <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', gap: 0.5 }}>
-                        <IconButton size="large" aria-label="cart" color="inherit">
-                            <Badge badgeContent={3} color="error">
-                                <ShoppingBagOutlinedIcon />
+                        {/* Account */}
+                        <IconButton
+                            size="small"
+                            aria-label="account"
+                            sx={{ color: "#333", display: { xs: "none", sm: "flex" } }}
+                        >
+                            <PersonOutlineIcon fontSize="small" />
+                        </IconButton>
+
+                        {/* Wishlist */}
+                        <IconButton
+                            size="small"
+                            aria-label="wishlist"
+                            sx={{ color: "#333", display: { xs: "none", sm: "flex" } }}
+                        >
+                            <FavoriteBorderIcon fontSize="small" />
+                        </IconButton>
+
+                        {/* Cart */}
+                        <IconButton size="small" aria-label="cart" sx={{ color: "#333" }}>
+                            <Badge
+                                badgeContent={0}
+                                color="error"
+                                showZero={false}
+                                sx={{
+                                    "& .MuiBadge-badge": {
+                                        fontSize: "0.6rem",
+                                        height: 16,
+                                        minWidth: 16,
+                                    },
+                                }}
+                            >
+                                <ShoppingBagOutlinedIcon fontSize="small" />
                             </Badge>
-                        </IconButton>
-                        <IconButton
-                            size="large"
-                            edge="end"
-                            aria-label="account of current user"
-                            aria-controls={menuId}
-                            aria-haspopup="true"
-                            onClick={handleProfileMenuOpen}
-                            color="inherit"
-                        >
-                            <AccountCircle />
-                        </IconButton>
-                    </Box>
-
-                    {/* Mobile overflow menu */}
-                    <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-                        <IconButton
-                            size="large"
-                            aria-label="show more"
-                            aria-controls={mobileMenuId}
-                            aria-haspopup="true"
-                            onClick={handleMobileMenuOpen}
-                            color="inherit"
-                        >
-                            <MoreIcon />
                         </IconButton>
                     </Box>
                 </Toolbar>
+
+                {/* ── ROW 2: Category nav (desktop only) ───────────────────── */}
+                <Box
+                    component="nav"
+                    aria-label="main navigation"
+                    sx={{
+                        display: { xs: "none", md: "flex" },
+                        justifyContent: "center",
+                        alignItems: "center",
+                        borderTop: "1px solid rgba(0,0,0,0.07)",
+                        gap: 0,
+                        px: { md: 2, lg: 4 },
+                        height: 42,
+                    }}
+                >
+                    {navLinks.map((link) => (
+                        <Link key={link.label} href={link.href} style={{ textDecoration: "none" }}>
+                            <Box
+                                sx={{
+                                    px: { md: 1.5, lg: 2 },
+                                    py: 1,
+                                    fontSize: { md: "0.78rem", lg: "0.85rem" },
+                                    fontWeight: 400,
+                                    color: link.highlight ? "#e53935" : "#222",
+                                    whiteSpace: "nowrap",
+                                    cursor: "pointer",
+                                    position: "relative",
+                                    transition: "color 0.2s",
+                                    letterSpacing: 0.1,
+                                    "&::after": {
+                                        content: '""',
+                                        position: "absolute",
+                                        bottom: 0,
+                                        left: "50%",
+                                        transform: "translateX(-50%)",
+                                        width: 0,
+                                        height: "1.5px",
+                                        backgroundColor: link.highlight ? "#e53935" : "#111",
+                                        transition: "width 0.25s ease",
+                                    },
+                                    "&:hover": {
+                                        color: link.highlight ? "#c62828" : "#000",
+                                    },
+                                    "&:hover::after": {
+                                        width: "70%",
+                                    },
+                                }}
+                            >
+                                {link.label}
+                            </Box>
+                        </Link>
+                    ))}
+                </Box>
             </AppBar>
-            {renderMobileMenu}
-            {renderMenu}
-            {renderNavbar}
-        </Box>
+
+            {/* ── Mobile Drawer ─────────────────────────────────────────── */}
+            <Drawer
+                anchor="left"
+                open={drawerOpen}
+                onClose={toggleDrawer(false)}
+                PaperProps={{
+                    sx: { width: 280, pt: 1 },
+                }}
+            >
+                {/* Drawer header */}
+                <Box
+                    sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        px: 2,
+                        pb: 1,
+                    }}
+                >
+                    <Typography
+                        variant="h6"
+                        sx={{ fontWeight: 900, letterSpacing: 3, fontFamily: "'Georgia', serif" }}
+                    >
+                        ZeroPixels
+                    </Typography>
+                    <IconButton onClick={toggleDrawer(false)} size="small">
+                        <CloseIcon />
+                    </IconButton>
+                </Box>
+
+                <Divider />
+
+                {/* Nav links */}
+                <List sx={{ pt: 1 }}>
+                    {navLinks.map((link) => (
+                        <ListItem key={link.label} disablePadding>
+                            <ListItemButton
+                                component={Link}
+                                href={link.href}
+                                onClick={toggleDrawer(false)}
+                                sx={{
+                                    px: 3,
+                                    py: 1.2,
+                                    "&:hover": { backgroundColor: "rgba(0,0,0,0.04)" },
+                                }}
+                            >
+                                <ListItemText
+                                    primary={link.label}
+                                    slotProps={{
+                                        primary: {
+                                            sx: {
+                                                fontSize: "0.95rem",
+                                                fontWeight: link.highlight ? 600 : 400,
+                                                color: link.highlight ? "#e53935" : "#222",
+                                            },
+                                        },
+                                    }}
+                                />
+                            </ListItemButton>
+                        </ListItem>
+                    ))}
+                </List>
+
+                <Divider sx={{ mt: 1 }} />
+
+                {/* Mobile utility links */}
+                <List>
+                    {[
+                        { label: "Account", icon: <PersonOutlineIcon fontSize="small" />, href: "/account" },
+                        { label: "Wishlist", icon: <FavoriteBorderIcon fontSize="small" />, href: "/wishlist" },
+                        { label: "Language: EN", icon: <LanguageIcon fontSize="small" />, href: "#" },
+                    ].map((item) => (
+                        <ListItem key={item.label} disablePadding>
+                            <ListItemButton
+                                component={Link}
+                                href={item.href}
+                                onClick={toggleDrawer(false)}
+                                sx={{ px: 3, py: 1 }}
+                            >
+                                <Box sx={{ mr: 2, color: "#555", display: "flex" }}>{item.icon}</Box>
+                                <ListItemText
+                                    primary={item.label}
+                                    slotProps={{
+                                        primary: { sx: { fontSize: "0.875rem", color: "#444" } },
+                                    }}
+                                />
+                            </ListItemButton>
+                        </ListItem>
+                    ))}
+                </List>
+            </Drawer>
+        </>
     );
 }

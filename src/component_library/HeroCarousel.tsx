@@ -21,30 +21,30 @@ interface Slide {
 
 const slides: Slide[] = [
     {
-        image: "/hero-carousel/1.png",
-        badge: "NEW SEASON ARRIVAL",
-        headline: "Elevate Your\nDaily Style",
+        image: "/brand-spotlight/cliniquev2.png",
+        badge: "New Arrivals",
+        headline: "Clinique",
         subtext:
-            "Discover our curated collection of minimalist essentials designed for the modern lifestyle.",
-        cta: "Shop Now",
+            "Discover Clinique for yourself. Skincare, makeup, fragrances, and more. Allergy tested. Dermatologist validated.",
+        cta: "Go to brand",
         align: "left",
     },
     {
-        image: "/hero-carousel/2.png",
-        badge: "WOMEN'S COLLECTION",
-        headline: "Grace in\nEvery Moment",
+        image: "/brand-spotlight/estee-lauderv2.png",
+        badge: "Visit store",
+        headline: "Estée Lauder",
         subtext:
-            "Timeless elegance meets contemporary design. Explore our latest women's arrivals.",
-        cta: "Shop Women",
+            "Iconic beauty brand offering a complete range of skincare, makeup, and fragrance products.",
+        cta: "Go to brand",
         align: "left",
     },
     {
-        image: "/hero-carousel/4.png",
-        badge: "LUXURY EDITORIALS",
-        headline: "Dare to\nBe Different",
+        image: "/brand-spotlight/macv2.png",
+        badge: "BRAND",
+        headline: "MAC",
         subtext:
-            "High fashion for those who set the trends. Limited edition pieces, exclusively yours.",
-        cta: "Explore Now",
+            "All ages, all races, all sexes. Professional quality makeup loved by makeup artists worldwide.",
+        cta: "Go to brand",
         align: "left",
     },
 
@@ -96,7 +96,7 @@ export default function HeroCarousel() {
                         position: "absolute",
                         inset: 0,
                         opacity: i === current ? 1 : 0,
-                        transition: "opacity 0.6s ease-in-out",
+                        transition: "opacity 0.6s ease",
                         zIndex: i === current ? 1 : 0,
                     }}
                 >
@@ -104,7 +104,8 @@ export default function HeroCarousel() {
                         src={s.image}
                         alt={s.headline.replace("\n", " ")}
                         fill
-                        style={{ objectFit: "cover", objectPosition: "center top" }}
+                        style={{ objectFit: "cover", objectPosition: "center", }}
+
                         priority={i === 0}
                         sizes="100vw"
                     />
@@ -131,6 +132,7 @@ export default function HeroCarousel() {
                     display: "flex",
                     alignItems: "center",
                     px: { xs: 3, sm: 5, md: 8 },
+
                 }}
             >
                 <Box
@@ -169,6 +171,7 @@ export default function HeroCarousel() {
                             mb: 1.5,
                             whiteSpace: "pre-line",
                             textShadow: "0 2px 12px rgba(0,0,0,0.4)",
+
                         }}
                     >
                         {slide.headline}
