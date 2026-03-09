@@ -21,7 +21,7 @@ import {
     incrementQuantity,
     removeFromCart,
 } from "@/core_components/state/slices/cartSlice";
-import { ProductResponse } from "@/types/types";
+import { ProductResponse } from "@/types/ProductTypes";
 import { useState } from "react";
 
 // ----- helpers -----
@@ -225,7 +225,6 @@ function CartItemCard({ item }: { item: { product: ProductResponse; quantity: nu
 
 // ----- Order Summary Panel -----
 function OrderSummary({ subtotal }: { subtotal: number }) {
-    const [promoCode, setPromoCode] = useState("");
     const isDeliveryFree = subtotal >= 50;
     const tax = 0;
     const total = subtotal + tax;
@@ -298,7 +297,7 @@ function OrderSummary({ subtotal }: { subtotal: number }) {
                 </Button>
 
                 {/* Continue Shopping */}
-                <Link href="/products" style={{ textDecoration: "none" }}>
+                <Link href="/products/allProducts" style={{ textDecoration: "none" }}>
                     <Button
                         fullWidth
                         variant="outlined"
@@ -317,44 +316,7 @@ function OrderSummary({ subtotal }: { subtotal: number }) {
                     </Button>
                 </Link>
 
-                {/* Promo Code */}
-                <Box sx={{ mt: 3 }}>
-                    <Typography
-                        variant="caption"
-                        sx={{ letterSpacing: "0.08em", fontWeight: 700, color: "#777", textTransform: "uppercase" }}
-                    >
-                        Promo Code
-                    </Typography>
-                    <Box sx={{ display: "flex", gap: 1, mt: 1 }}>
-                        <TextField
-                            size="small"
-                            placeholder="Enter code"
-                            value={promoCode}
-                            onChange={(e) => setPromoCode(e.target.value)}
-                            sx={{
-                                flex: 1,
-                                "& .MuiOutlinedInput-root": {
-                                    borderRadius: "10px",
-                                    fontSize: "0.875rem",
-                                },
-                            }}
-                        />
-                        <Button
-                            variant="contained"
-                            sx={{
-                                bgcolor: "#111",
-                                borderRadius: "10px",
-                                fontWeight: 700,
-                                textTransform: "none",
-                                px: 2.5,
-                                flexShrink: 0,
-                                "&:hover": { bgcolor: "#333" },
-                            }}
-                        >
-                            Apply
-                        </Button>
-                    </Box>
-                </Box>
+
             </Box>
 
             {/* Info cards */}

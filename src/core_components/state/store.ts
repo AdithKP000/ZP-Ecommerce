@@ -1,6 +1,7 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import cartReducer from "./slices/cartSlice"
 import whistListReducer from "./slices/wishlistSlice"
+import userReducer from "./slices/userSlice"
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage"
 
@@ -12,7 +13,8 @@ const persistConfig = {
 
 const rootReducers = combineReducers({
     cart: cartReducer,
-    wishlist: whistListReducer
+    wishlist: whistListReducer,
+    user: userReducer
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducers)

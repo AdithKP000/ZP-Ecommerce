@@ -6,7 +6,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 
 import { useAppSelector, useAppDispatch } from "@/core_components/hooks/redux";
 import { addToWishList, removeFomWishList } from "@/core_components/state/slices/wishlistSlice";
-import { ProductResponse } from "@/types/types";
+import { ProductResponse } from "@/types/ProductTypes";
 
 interface WishlistButtonProps {
     product: ProductResponse;

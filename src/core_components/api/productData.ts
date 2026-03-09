@@ -1,5 +1,5 @@
 import axiosInstance from "../hooks/axios";
-import { Product, ProductResponse } from "../../types/types";
+import { Product, ProductResponse } from "../../types/ProductTypes";
 
 
 
@@ -108,6 +108,7 @@ const CATEGORY_SLUG_MAP: Record<string, string> = {
     "beauty": "beauty",
     "fragrances": "fragrances",
     "furniture": "furniture",
+    "groceries": "groceries",
 }
 
 export const getProductsByCategory = async (slug: string): Promise<ProductResponse[]> => {

@@ -6,7 +6,7 @@ import StarIcon from "@mui/icons-material/Star";
 import StarHalfIcon from "@mui/icons-material/StarHalf";
 import StarOutlineIcon from "@mui/icons-material/StarOutline";
 
-import { ProductResponse } from "@/types/types";
+import { ProductResponse } from "@/types/ProductTypes";
 import WishlistButton from "./WishlistButton";
 import AddToCardButton from "./CardButton";
 import Link from "next/link";

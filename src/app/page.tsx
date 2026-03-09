@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import { getAllNewProducts, getFeaturedProducts, onSaleProducts } from "@/core_components/api/productData";
-import { Product, ProductResponse } from "../types/types";
+import { Product, ProductResponse } from "../types/ProductTypes";
 import { Montserrat } from "next/font/google";
 import { IconButton } from "@mui/material";
 import { ArrowForward } from "@mui/icons-material";

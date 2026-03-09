@@ -16,7 +16,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useAppDispatch, useAppSelector } from "@/core_components/hooks/redux";
 import { removeFomWishList } from "@/core_components/state/slices/wishlistSlice";
 import { addToCart } from "@/core_components/state/slices/cartSlice";
-import { ProductResponse } from "@/types/types";
+import { ProductResponse } from "@/types/ProductTypes";
 
 // ---------- Empty State ----------
 function EmptyWishlist() {

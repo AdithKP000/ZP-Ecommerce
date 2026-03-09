@@ -117,14 +117,7 @@ export default function Navbar() {
                         }}
                     >
                         {/* Language — desktop only */}
-                        <Box sx={{ display: { xs: "none", sm: "flex" }, alignItems: "center", mr: 0.5 }}>
-                            <IconButton size="small" aria-label="language" sx={{ color: "#333" }}>
-                                <LanguageIcon fontSize="small" />
-                            </IconButton>
-                            <Typography variant="caption" sx={{ fontWeight: 600, fontSize: "0.7rem", color: "#333", ml: -0.5 }}>
-                                EN
-                            </Typography>
-                        </Box>
+
 
                         {/* Search */}
                         <IconButton size="small" aria-label="search" sx={{ color: "#333" }}>
