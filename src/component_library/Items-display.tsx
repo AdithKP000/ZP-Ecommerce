@@ -1,16 +1,15 @@
 "use client";
 
-import { useState } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import StarIcon from "@mui/icons-material/Star";
 import StarHalfIcon from "@mui/icons-material/StarHalf";
 import StarOutlineIcon from "@mui/icons-material/StarOutline";
 
 import { ProductResponse } from "@/types/types";
+import WishlistButton from "./WishlistButton";
+import AddToCardButton from "./CardButton";
+import Link from "next/link";
 
 // functionality to display the star rating of the product
 function StarRow({ rating }: { rating: number }) {
@@ -25,29 +24,10 @@ function StarRow({ rating }: { rating: number }) {
     );
 }
 
-function WishlistButton() {
-    const [liked, setLiked] = useState(false);
-    return (
-        <IconButton
-            size="small"
-            onClick={(e) => { e.stopPropagation(); setLiked((v) => !v); }}
-            sx={{
-                bgcolor: "white",
-                boxShadow: "0 1px 4px rgba(0,0,0,0.12)",
-                width: 32,
-                height: 32,
-                "&:hover": { bgcolor: "white" },
-            }}
-        >
-            {liked
-                ? <FavoriteIcon sx={{ fontSize: 16, color: "#e53935" }} />
-                : <FavoriteBorderIcon sx={{ fontSize: 16, color: "#888" }} />}
-        </IconButton>
-    );
-}
 
 /* ── product card ── */
 function ProductCard({ product }: { product: ProductResponse }) {
+
     const discountedPrice = product.discountPercentage
         ? (product.price * (1 - product.discountPercentage / 100)).toFixed(2)
         : null;
@@ -55,7 +35,7 @@ function ProductCard({ product }: { product: ProductResponse }) {
     return (
         <Box
             sx={{
-                minWidth: 200,
+                minWidth: 160,
                 maxWidth: 260,
                 flexShrink: 0,
                 cursor: "pointer",
@@ -64,128 +44,136 @@ function ProductCard({ product }: { product: ProductResponse }) {
                 },
             }}
         >
-            {/* image area */}
-            <Box
-                className="card-img-wrap"
-                sx={{
-                    position: "relative",
-                    bgcolor: "#f5f5f5",
-                    borderRadius: "14px",
-                    overflow: "hidden",
-                    aspectRatio: "1 / 1",
-                    transition: "box-shadow 0.25s ease",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                }}
-            >
-                {product.discountPercentage > 0 && (
+            <Link href={`/products/${product.id}`} style={{ textDecoration: "none", color: "inherit" }}>
+                {/* image area */}
+                <Box
+                    className="card-img-wrap"
+                    sx={{
+                        position: "relative",
+                        bgcolor: "#f5f5f5",
+                        borderRadius: "14px",
+                        overflow: "hidden",
+                        aspectRatio: "1 / 1",
+                        transition: "box-shadow 0.25s ease",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                    }}
+                >
+                    {product.discountPercentage > 0 && (
+                        <Box
+                            sx={{
+                                position: "absolute",
+                                top: 10,
+                                left: 10,
+                                bgcolor: "#e53935",
+                                color: "white",
+                                borderRadius: "20px",
+                                px: 1,
+                                py: 0.25,
+                                fontSize: "0.7rem",
+                                fontWeight: 700,
+                                lineHeight: 1.4,
+                                zIndex: 2,
+                            }}
+                        >
+                            -{Math.round(product.discountPercentage)}%
+                        </Box>
+                    )}
+
+                    {/* wishlist and add to cart */}
+                    <Box sx={{ position: "absolute", top: 8, right: 8, zIndex: 2 }}>
+                        <Box sx={{ mb: 1 }}>
+                            <WishlistButton product={product} />
+                        </Box>
+                        <Box>
+                            <AddToCardButton product={product} />
+                        </Box>
+                    </Box>
+
+                    {/* product image */}
                     <Box
+                        component="img"
+                        src={product.thumbnail}
+                        alt={product.title}
                         sx={{
-                            position: "absolute",
-                            top: 10,
-                            left: 10,
-                            bgcolor: "#e53935",
-                            color: "white",
-                            borderRadius: "20px",
-                            px: 1,
-                            py: 0.25,
-                            fontSize: "0.7rem",
-                            fontWeight: 700,
-                            lineHeight: 1.4,
-                            zIndex: 2,
+                            width: "75%",
+                            height: "75%",
+                            objectFit: "contain",
+                            mixBlendMode: "multiply",
+                        }}
+                    />
+                </Box>
+
+                <Box sx={{ pt: 1.25, px: 0.5 }}>
+                    {/* stars + review count */}
+                    <Box sx={{ display: "flex", alignItems: "center", gap: 0.75, mb: 0.5 }}>
+                        <StarRow rating={product.rating} />
+                        <Typography variant="caption" sx={{ color: "#666", fontSize: "0.7rem" }}>
+                            - {product.rating.toFixed(1)} out of 5
+                        </Typography>
+                    </Box>
+
+                    <Typography
+                        variant="caption"
+                        sx={{
+                            color: "#888",
+                            fontSize: "0.68rem",
+                            textTransform: "uppercase",
+                            letterSpacing: "0.03em",
+                            display: "block",
+                            mb: 0.25,
                         }}
                     >
-                        -{Math.round(product.discountPercentage)}%
-                    </Box>
-                )}
-
-                <Box sx={{ position: "absolute", top: 8, right: 8, zIndex: 2 }}>
-                    <WishlistButton />
-                </Box>
-
-                {/* product image */}
-                <Box
-                    component="img"
-                    src={product.thumbnail}
-                    alt={product.title}
-                    sx={{
-                        width: "75%",
-                        height: "75%",
-                        objectFit: "contain",
-                        mixBlendMode: "multiply",
-                    }}
-                />
-            </Box>
-
-            <Box sx={{ pt: 1.25, px: 0.5 }}>
-                {/* stars + review count */}
-                <Box sx={{ display: "flex", alignItems: "center", gap: 0.75, mb: 0.5 }}>
-                    <StarRow rating={product.rating} />
-                    <Typography variant="caption" sx={{ color: "#666", fontSize: "0.7rem" }}>
-                        - {product.reviews.length} out of 5
+                        {product.category}
                     </Typography>
-                </Box>
 
-                <Typography
-                    variant="caption"
-                    sx={{
-                        color: "#888",
-                        fontSize: "0.68rem",
-                        textTransform: "uppercase",
-                        letterSpacing: "0.03em",
-                        display: "block",
-                        mb: 0.25,
-                    }}
-                >
-                    {product.category}
-                </Typography>
+                    <Typography
+                        variant="body2"
+                        fontWeight={700}
+                        sx={{
+                            display: "-webkit-box",
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: "vertical",
+                            overflow: "hidden",
+                            lineHeight: 1.35,
+                            fontSize: "0.82rem",
+                            mb: 0.75,
+                            color: "#111",
+                        }}
+                    >
+                        {product.title}
+                    </Typography>
 
-                <Typography
-                    variant="body2"
-                    fontWeight={700}
-                    sx={{
-                        display: "-webkit-box",
-                        WebkitLineClamp: 2,
-                        WebkitBoxOrient: "vertical",
-                        overflow: "hidden",
-                        lineHeight: 1.35,
-                        fontSize: "0.82rem",
-                        mb: 0.75,
-                        color: "#111",
-                    }}
-                >
-                    {product.title}
-                </Typography>
-
-                <Box sx={{ display: "flex", alignItems: "center", gap: 1, flexWrap: "wrap" }}>
-                    {discountedPrice ? (
-                        <>
-                            <Typography
-                                variant="caption"
-                                sx={{
-                                    textDecoration: "line-through",
-                                    color: "#aaa",
-                                    fontSize: "0.78rem",
-                                }}
-                            >
+                    <Box sx={{ display: "flex", alignItems: "center", gap: 1, flexWrap: "wrap" }}>
+                        {discountedPrice ? (
+                            <>
+                                <Typography
+                                    variant="caption"
+                                    sx={{
+                                        textDecoration: "line-through",
+                                        color: "#aaa",
+                                        fontSize: "0.78rem",
+                                    }}
+                                >
+                                    ${product.price.toFixed(2)}
+                                </Typography>
+                                <Typography
+                                    variant="body2"
+                                    fontWeight={700}
+                                    sx={{ color: "#e53935", fontSize: "0.88rem" }}
+                                >
+                                    ${discountedPrice}
+                                </Typography>
+                            </>
+                        ) : (
+                            <Typography variant="body2" fontWeight={700} sx={{ fontSize: "0.88rem" }}>
                                 ${product.price.toFixed(2)}
                             </Typography>
-                            <Typography
-                                variant="body2"
-                                fontWeight={700}
-                                sx={{ color: "#e53935", fontSize: "0.88rem" }}
-                            >
-                                ${discountedPrice}
-                            </Typography>
-                        </>
-                    ) : (
-                        <Typography variant="body2" fontWeight={700} sx={{ fontSize: "0.88rem" }}>
-                            ${product.price.toFixed(2)}
-                        </Typography>
-                    )}
+                        )}
+                    </Box>
                 </Box>
-            </Box>
+            </Link>
         </Box>
     );
 }
@@ -193,6 +181,8 @@ function ProductCard({ product }: { product: ProductResponse }) {
 // until this are the componentes which we use to display the products
 
 export default function ItemsDisplay({ products }: { products: ProductResponse[] }) {
+
+
     return (
         <>
             {/* Mobile — 2-column grid */}

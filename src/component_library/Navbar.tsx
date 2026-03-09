@@ -21,6 +21,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import Link from "next/link";
 
+import { useAppSelector } from "@/core_components/hooks/redux";
+
 interface NavLink {
     label: string;
     href: string;
@@ -28,22 +30,21 @@ interface NavLink {
 }
 
 const navLinks: NavLink[] = [
-    { label: "New Arrivals", href: "/products?filter=new" },
-    { label: "Brands", href: "/products?filter=brands" },
-    { label: "Skincare", href: "/products?category=skincare" },
-    { label: "Makeup", href: "/products?category=makeup" },
-    { label: "Hair", href: "/products?category=hair" },
-    { label: "Body", href: "/products?category=body" },
-    { label: "Fragrance", href: "/products?category=fragrance" },
-    { label: "Home", href: "/products?category=home" },
-    { label: "Sale", href: "/products?filter=sale", highlight: true },
+    { label: "All Products", href: "/products/allProducts" },
+    { label: "Beauty", href: "/products/allProducts?category=beauty" },
+    { label: "Fragrances", href: "/products/allProducts?category=fragrances" },
+    { label: "Furniture", href: "/products/allProducts?category=furniture" },
+    { label: "Groceries", href: "/products/allProducts?category=groceries" },
+    { label: "Body", href: "/products/allProducts?category=body" },
+    { label: "Home", href: "/products/allProducts?category=home" },
+    { label: "Sale", href: "/products/allProducts?category=sale", highlight: true },
 ];
 
 export default function Navbar() {
     const [drawerOpen, setDrawerOpen] = React.useState(false);
 
     const toggleDrawer = (open: boolean) => () => setDrawerOpen(open);
-
+    const dispatch = useAppSelector((state) => state.cart.items)
     return (
         <>
             <AppBar
@@ -140,31 +141,37 @@ export default function Navbar() {
                         </IconButton>
 
                         {/* Wishlist */}
-                        <IconButton
-                            size="small"
-                            aria-label="wishlist"
-                            sx={{ color: "#333", display: { xs: "none", sm: "flex" } }}
+                        <Link
+                            href='/wishlist'
                         >
-                            <FavoriteBorderIcon fontSize="small" />
-                        </IconButton>
+                            <IconButton
+                                size="small"
+                                aria-label="wishlist"
+                                sx={{ color: "#333", display: { xs: "none", sm: "flex" } }}
+                            >
+                                <FavoriteBorderIcon fontSize="small" />
+                            </IconButton>
+                        </Link>
 
                         {/* Cart */}
-                        <IconButton size="small" aria-label="cart" sx={{ color: "#333" }}>
-                            <Badge
-                                badgeContent={0}
-                                color="error"
-                                showZero={false}
-                                sx={{
-                                    "& .MuiBadge-badge": {
-                                        fontSize: "0.6rem",
-                                        height: 16,
-                                        minWidth: 16,
-                                    },
-                                }}
-                            >
-                                <ShoppingBagOutlinedIcon fontSize="small" />
-                            </Badge>
-                        </IconButton>
+                        <Link href="/cart">
+                            <IconButton size="small" aria-label="cart" sx={{ color: "#333" }}>
+                                <Badge
+                                    badgeContent={dispatch.length}
+                                    color="error"
+                                    showZero={false}
+                                    sx={{
+                                        "& .MuiBadge-badge": {
+                                            fontSize: "0.6rem",
+                                            height: 16,
+                                            minWidth: 16,
+                                        },
+                                    }}
+                                >
+                                    <ShoppingBagOutlinedIcon fontSize="small" />
+                                </Badge>
+                            </IconButton>
+                        </Link>
                     </Box>
                 </Toolbar>
 
@@ -243,9 +250,9 @@ export default function Navbar() {
                 >
                     <Typography
                         variant="h6"
-                        sx={{ fontWeight: 900, letterSpacing: 3, fontFamily: "'Georgia', serif" }}
+                        sx={{ fontWeight: 900, letterSpacing: 3 }}
                     >
-                        ZeroPixels
+                        COSMO
                     </Typography>
                     <IconButton onClick={toggleDrawer(false)} size="small">
                         <CloseIcon />

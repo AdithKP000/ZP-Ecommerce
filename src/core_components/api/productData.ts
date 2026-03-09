@@ -26,7 +26,6 @@ export const getAllProducts = async (): Promise<ProductResponse[]> => {
 
 export const getFeaturedProducts = async (): Promise<ProductResponse[]> => {
     try {
-        // dummyjson response shape: { products: [...], total, skip, limit }
         const response = await axiosInstance.get<{ products: ProductResponse[] }>("/")
         if (!response) {
             throw new Error("Unable to fetch featured products")
@@ -53,13 +52,13 @@ export const getFeaturedProducts = async (): Promise<ProductResponse[]> => {
 
 export const onSaleProducts = async (): Promise<ProductResponse[]> => {
     try {
-        const response = await axiosInstance.get<ProductResponse[]>("/")
+        const response = await axiosInstance.get<{ products: ProductResponse[] }>("/")
         if (!response) {
             throw new Error("Unable to fetch featured products")
         }
 
-        let filtered = response.data.filter((product) =>
-            product.discountPercentage > 25
+        let filtered = response.data.products.filter((product) =>
+            product.discountPercentage > 10
         )
         filtered = filtered.filter((product) =>
             ALLOWED_CATEGORIES.includes(product.category)
@@ -139,5 +138,16 @@ export const getAllNewProducts = async (): Promise<ProductResponse[]> => {
     catch (error) {
         console.log("An error occurred while getting all product data", error)
         return []
+    }
+}
+
+export const getProductById = async (id: number): Promise<ProductResponse | null> => {
+    try {
+        const response = await axiosInstance.get<ProductResponse>(`/${id}`);
+        if (!response) throw new Error(`Failed to fetch product #${id}`);
+        return response.data;
+    } catch (error) {
+        console.log(`Error fetching product #${id}`, error);
+        return null;
     }
 }

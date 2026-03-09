@@ -1,8 +1,7 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { getAllProducts, getProductsByCategory } from "@/core_components/api/productData";
-import { ProductCard } from "../../component_library/ProductCard";
-
+import { ProductCard } from "../../../component_library/ProductCard";
 // Friendly display names for each slug
 const CATEGORY_LABELS: Record<string, string> = {
     "beauty": "Beauty",
