@@ -1,8 +1,11 @@
 import axios from "axios";
 
+const BASE_URL = "https://dummyjson.com/products"
+
 const axiosInstance = axios.create({
-    baseURL: "https://dummyjson.com/products",
+    baseURL: BASE_URL,
     withCredentials: true,
+    timeout: 10000,
     headers: {
         "Content-Type": "application/json"
     }

@@ -20,8 +20,10 @@ import LanguageIcon from "@mui/icons-material/Language";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import Link from "next/link";
-
+import { usePathname } from "next/navigation";
 import { useAppSelector } from "@/core_components/hooks/redux";
+import { useAuth } from "@/core_components/hooks/useAuth";
+import { Button } from "@mui/material";
 
 interface NavLink {
     label: string;
@@ -30,21 +32,62 @@ interface NavLink {
 }
 
 const navLinks: NavLink[] = [
+    { label: "Home", href: "/" },
     { label: "All Products", href: "/products/allProducts" },
     { label: "Beauty", href: "/products/allProducts?category=beauty" },
     { label: "Fragrances", href: "/products/allProducts?category=fragrances" },
     { label: "Furniture", href: "/products/allProducts?category=furniture" },
     { label: "Groceries", href: "/products/allProducts?category=groceries" },
     { label: "Body", href: "/products/allProducts?category=body" },
-    { label: "Home", href: "/products/allProducts?category=home" },
+
     { label: "Sale", href: "/products/allProducts?category=sale", highlight: true },
 ];
 
-export default function Navbar() {
+interface NavbarProps {
+    exclude?: string[];
+}
+
+export default function Navbar({ exclude = [] }: NavbarProps) {
+    const pathname = usePathname();
     const [drawerOpen, setDrawerOpen] = React.useState(false);
+    const cartItems = useAppSelector((state) => state.cart.items);
+    const { user, isLoggedIn } = useAuth();
+
+    const isExcluded = exclude.some((path) => pathname === path);
+    if (isExcluded) {
+        return (
+            <>
+                {/* Brand name — absolutely centered */}
+                <Box
+                    sx={{
+                        position: "absolute",
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        pointerEvents: "none",
+                    }}
+                >
+                    <Link href="/" style={{ textDecoration: "none", pointerEvents: "auto" }}>
+                        <Typography
+                            variant="h3"
+                            component="span"
+                            sx={{
+                                fontWeight: 900,
+                                mt: 1,
+                                fontSize: { xs: "2rem", sm: "2rem", lg: '3rems' },
+                                letterSpacing: { xs: 3, sm: 5 },
+                                color: "#111",
+
+                            }}
+                        >
+                            COSMO
+                        </Typography>
+                    </Link>
+                </Box>
+            </>
+        )
+    };
 
     const toggleDrawer = (open: boolean) => () => setDrawerOpen(open);
-    const dispatch = useAppSelector((state) => state.cart.items)
     return (
         <>
             <AppBar
@@ -79,7 +122,6 @@ export default function Navbar() {
                         <MenuIcon />
                     </IconButton>
 
-                    {/* Brand name — absolutely centered */}
                     <Box
                         sx={{
                             position: "absolute",
@@ -124,18 +166,10 @@ export default function Navbar() {
                             <SearchIcon fontSize="small" />
                         </IconButton>
 
-                        {/* Account */}
-                        <IconButton
-                            size="small"
-                            aria-label="account"
-                            sx={{ color: "#333", display: { xs: "none", sm: "flex" } }}
-                        >
-                            <PersonOutlineIcon fontSize="small" />
-                        </IconButton>
 
                         {/* Wishlist */}
                         <Link
-                            href='/wishlist'
+                            href='/user/wishlist'
                         >
                             <IconButton
                                 size="small"
@@ -147,10 +181,10 @@ export default function Navbar() {
                         </Link>
 
                         {/* Cart */}
-                        <Link href="/cart">
+                        <Link href="/user/cart">
                             <IconButton size="small" aria-label="cart" sx={{ color: "#333" }}>
                                 <Badge
-                                    badgeContent={dispatch.length}
+                                    badgeContent={cartItems.length}
                                     color="error"
                                     showZero={false}
                                     sx={{
@@ -165,6 +199,35 @@ export default function Navbar() {
                                 </Badge>
                             </IconButton>
                         </Link>
+                        {/* Account */}
+                        {isLoggedIn ? (
+                            <Link href="/user/profile">
+                                <IconButton
+                                    size="small"
+                                    aria-label="account"
+                                    sx={{ color: "#333", display: { xs: "none", sm: "flex" } }}
+                                >
+                                    <PersonOutlineIcon fontSize="small" />
+                                </IconButton>
+                            </Link>
+                        ) : (
+                            <Link href="/user/auth/signup">
+                                <Button sx={{
+                                    mt: 1,
+                                    bgcolor: "#E8651C",
+                                    borderRadius: "10px",
+                                    px: 1.5,
+                                    py: 0.5,
+                                    color: "#fff",
+                                    textTransform: "none",
+                                    fontWeight: 600,
+                                    boxShadow: "none",
+                                    "&:hover": { bgcolor: "#d05a16", boxShadow: "none" },
+                                }}>
+                                    Signup
+                                </Button>
+                            </Link>
+                        )}
                     </Box>
                 </Toolbar>
 
@@ -290,8 +353,8 @@ export default function Navbar() {
                 {/* Mobile utility links */}
                 <List>
                     {[
-                        { label: "Account", icon: <PersonOutlineIcon fontSize="small" />, href: "/account" },
-                        { label: "Wishlist", icon: <FavoriteBorderIcon fontSize="small" />, href: "/wishlist" },
+                        { label: "Account", icon: <PersonOutlineIcon fontSize="small" />, href: "/user/auth/signup" },
+                        { label: "Wishlist", icon: <FavoriteBorderIcon fontSize="small" />, href: "/user/wishlist" },
                         { label: "Language: EN", icon: <LanguageIcon fontSize="small" />, href: "#" },
                     ].map((item) => (
                         <ListItem key={item.label} disablePadding>

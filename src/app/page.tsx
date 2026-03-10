@@ -1,6 +1,6 @@
 import ItemsDisplay from "@/component_library/Items-display";
 import HeroCarousel from "../component_library/HeroCarousel";
-import GenderCategoryBanner from "@/component_library/GenderCategoryBanner";
+import CategoryBanner from "@/component_library/CategoryBanner";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
@@ -9,6 +9,7 @@ import { Product, ProductResponse } from "../types/ProductTypes";
 import { Montserrat } from "next/font/google";
 import { IconButton } from "@mui/material";
 import { ArrowForward } from "@mui/icons-material";
+import Footer from "@/component_library/Footer";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
@@ -18,18 +19,15 @@ export default async function Home() {
   const saleProducts: ProductResponse[] = await onSaleProducts();
   const previewSaleProducts = saleProducts.slice(0, 6)
 
-  // const mostSoldItems: Product[] = await mostSold();
-  // const previewMostSoldItems = mostSoldItems.slice(0, 4)
   return (
     <>
       <Box sx={{ mb: 2 }}>
         <HeroCarousel />
       </Box>
 
-      {/* <BrandSpotlightBanner /> */}
 
 
-      {/* Featured Products */}
+      {/* most rated Products */}
       <Box sx={{
         display: "flex",
         justifyContent: "space-between",
@@ -117,54 +115,10 @@ export default async function Home() {
 
       <ItemsDisplay products={previewSaleProducts} />
 
-      {/* 
-      <Box sx={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        px: 2,
-        py: 2,
-        mt: 5,
-        backgroundColor: "#f9f9f9"
-      }}>
-        <Typography variant="h4"
-          sx={{
-            textAlign: "center",
-            flex: 1
-          }}
-          fontSize={{ xs: "1.5rem", md: "2rem" }}
-          fontWeight={700}
-          fontFamily={montserrat.style.fontFamily}>
-          Most Sold Products
-        </Typography>
 
-        <Link
-          href="/products"
-          style={{
-            fontSize: "0.875rem",
-            fontWeight: 500,
-            padding: "4px 14px",
-            borderRadius: "8px",
-            margin: 4,
-            color: '#1111d4',
-            textDecoration: "none",
-          }}
-        >
 
-          View All
-          <IconButton sx={{
-            color: "#1111d4"
-          }}>
-            <ArrowForward />
-          </IconButton>
-        </Link>
-
-      </Box>
-      <Box sx={{ backgroundColor: "#f9f9f9" }}>
-        <ItemsDisplay products={previewMostSoldItems} />
-      </Box>
-
-      <GenderCategoryBanner /> */}
+      <CategoryBanner />
+      <Footer />
     </>
   );
 }

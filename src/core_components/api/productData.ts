@@ -76,32 +76,6 @@ export const onSaleProducts = async (): Promise<ProductResponse[]> => {
 }
 
 
-export const mensCloting = async (): Promise<Product[]> => {
-    try {
-        const reponse = await axiosInstance.get<Product[]>(`category/men's clothing`)
-        if (!reponse) {
-            throw new Error("Unable to fetch mens cloting")
-        }
-        return reponse.data
-    } catch (error) {
-        console.log("Error occurred while fetching mens cloting", error)
-        return []
-    }
-}
-
-
-export const femaleClothing = async (): Promise<Product[]> => {
-    try {
-        const reponse = await axiosInstance.get<Product[]>(`category/women's clothing`)
-        if (!reponse) {
-            throw new Error("Unable to fetch mens cloting")
-        }
-        return reponse.data
-    } catch (error) {
-        console.log("Error occurred while fetching mens cloting", error)
-        return []
-    }
-}
 
 // Maps URL-friendly slugs (?category=...) → real API category names
 const CATEGORY_SLUG_MAP: Record<string, string> = {
@@ -149,6 +123,21 @@ export const getProductById = async (id: number): Promise<ProductResponse | null
         return response.data;
     } catch (error) {
         console.log(`Error fetching product #${id}`, error);
+        return null;
+    }
+}
+
+
+
+export const getFilteredProduct = async (category: string): Promise<ProductResponse | null> => {
+    try {
+        const response = await axiosInstance.get<ProductResponse>(`/category/${category}`)
+        if (!response) {
+            throw new Error(`Failed to fetch product #${category}`);
+        }
+        return response.data;
+    } catch (error) {
+        console.log(`Error fetching product #${category}`, error);
         return null;
     }
 }

@@ -126,12 +126,16 @@ function CartItemCard({ item }: { item: { product: ProductResponse; quantity: nu
                     overflow: "hidden",
                 }}
             >
-                <Box
-                    component="img"
-                    src={product.thumbnail}
-                    alt={product.title}
-                    sx={{ width: "80%", height: "80%", objectFit: "contain", mixBlendMode: "multiply" }}
-                />
+                <Link href={`/products/${product.id}`}>
+
+                    <Box
+                        component="img"
+                        src={product.thumbnail}
+                        alt={product.title}
+                        sx={{ width: "80%", height: "80%", objectFit: "contain", mixBlendMode: "multiply" }}
+                    />
+                </Link>
+
             </Box>
 
             {/* Info + Controls */}
@@ -219,7 +223,7 @@ function CartItemCard({ item }: { item: { product: ProductResponse; quantity: nu
                     <DeleteOutlineIcon fontSize="small" />
                 </IconButton>
             </Box>
-        </Box>
+        </Box >
     );
 }
 

@@ -30,7 +30,7 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <MuiProvider>
           <StoreProvider>
-            <Navbar />
+            <Navbar exclude={["/user/auth/login", "/user/auth/signup"]} />
             {children}
           </StoreProvider>
         </MuiProvider>
