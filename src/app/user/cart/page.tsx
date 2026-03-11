@@ -229,6 +229,7 @@ function CartItemCard({ item }: { item: { product: ProductResponse; quantity: nu
 
 // ----- Order Summary Panel -----
 function OrderSummary({ subtotal }: { subtotal: number }) {
+    const user = useAppSelector((state) => state.user.user)
     const isDeliveryFree = subtotal >= 50;
     const tax = 0;
     const total = subtotal + tax;
@@ -246,6 +247,9 @@ function OrderSummary({ subtotal }: { subtotal: number }) {
             >
                 <Typography variant="h6" fontWeight={800} color="#111" sx={{ mb: 2.5 }}>
                     Order Summary
+                </Typography>
+                <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                    Delivery Address :-{user?.address}
                 </Typography>
 
                 {/* Row helper */}

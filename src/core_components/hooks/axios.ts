@@ -1,15 +1,16 @@
 import axios from "axios";
 
-const BASE_URL = "https://dummyjson.com/products"
 
-const axiosInstance = axios.create({
-    baseURL: BASE_URL,
-    withCredentials: true,
-    timeout: 10000,
-    headers: {
-        "Content-Type": "application/json"
-    }
-})
+export const axiosInstance = (baseURL: string) => {
+    return axios.create({
+        baseURL: baseURL,
+        withCredentials: true,
+        timeout: 10000,
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+}
 
 
 export default axiosInstance

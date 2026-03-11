@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Navbar from "../component_library/Navbar";
+import Navbar from "../component_library/homepage/Navbar";
 import MuiProvider from "./MuiProvider";
 import { StoreProvider } from "@/core_components/state/StoreProvider";
 

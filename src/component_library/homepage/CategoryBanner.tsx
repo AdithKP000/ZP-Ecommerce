@@ -5,8 +5,8 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Link from "next/link";
 import Image from "next/image";
-import makeupImg from "../../public/makeup_bestsellers.png";
-import organicImg from "../../public/organic_selection.png";
+import makeupImg from "../../../public/makeup_bestsellers.png";
+import organicImg from "../../../public/organic_selection.png"
 
 export default function GenderCategoryBanner() {
     return (
@@ -100,7 +100,7 @@ export default function GenderCategoryBanner() {
                     <Box>
                         <Button
                             component={Link}
-                            href="/products?category=jewelery"
+                            href="/products/allProducts?category=beauty"
                             variant="outlined"
                             sx={{
                                 color: "white",
@@ -177,7 +177,7 @@ export default function GenderCategoryBanner() {
                     <Box>
                         <Button
                             component={Link}
-                            href="/products?category=electronics"
+                            href="/products/allProducts?category=fragrances"
                             variant="contained"
                             sx={{
                                 backgroundColor: "#e36817",

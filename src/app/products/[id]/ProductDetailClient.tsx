@@ -25,7 +25,7 @@ import Link from "next/link";
 
 import { useAppDispatch, useAppSelector } from "@/core_components/hooks/redux";
 import { addToCart, incrementQuantity } from "@/core_components/state/slices/cartSlice";
-import WishlistButton from "@/component_library/WishlistButton";
+import WishlistButton from "@/component_library/wishlist/WishlistButton";
 import { ProductResponse } from "@/types/ProductTypes";
 
 // ── Star row ─────────────────────────────────────────────────────────────────

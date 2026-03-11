@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { getProductById, getProductsByCategory } from "@/core_components/api/productData";
 import ProductDetailClient from "./ProductDetailClient";
-import ItemsDisplay from "@/component_library/Items-display";
+import ItemsDisplay from "@/component_library/items-display/Items-display";
 import { Box, Typography } from "@mui/material";
 
 interface Props {

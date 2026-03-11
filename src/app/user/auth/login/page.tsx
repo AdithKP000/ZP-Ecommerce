@@ -1,8 +1,9 @@
 "use client"
-import { Label } from "@mui/icons-material"
+
 import { Box, Container, FormControl, FormControlLabel, FormGroup, TextField, Paper, Typography, IconButton, Button, Checkbox } from "@mui/material"
 import { User } from "@/types/UserTypes"
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
+import { useRouter } from "next/navigation"
 
 import { useState } from "react"
 import Link from "next/link"
@@ -12,7 +13,7 @@ export default function Login() {
         password: "",
 
     })
-
+    const router = useRouter();
     const [newsletter, setNewsletter] = useState(false)
 
     const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,7 +23,15 @@ export default function Login() {
             [name]: value
         }))
     }
+    const handleLogin = () => {
+        console.log(formData)
+        if (!formData.email || !formData.password) {
+            alert("Please fill all the fields")
+            return
+        }
 
+        router.push("/")
+    }
 
     return (
         <div>
@@ -67,7 +76,7 @@ export default function Login() {
                         >
                             Please Enter your details to sign in
                         </Typography>
-                        <Box component="form" sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'inline', gap: 3 }}>
+                        <Box component="form" sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 3 }}>
                             <Button sx={{
                                 p: 1,
                                 px: 4,
@@ -105,11 +114,11 @@ export default function Login() {
                             <Box component="form" sx={{ mt: 1, width: '100%', display: 'flex', flexDirection: 'column', gap: 3 }}>
                                 <Box>
                                     <Typography variant="caption"
-                                        sx={{ fontWeight: 700, textTransform: "upper", color: '#5f6368', mb: 1, display: 'block', letterSpacing: '0.07em' }}>
+                                        sx={{ fontWeight: 700, textTransform: "uppercase", color: '#5f6368', mb: 1, display: 'block', letterSpacing: '0.07em' }}>
                                         Email
                                     </Typography>
                                     <TextField
-                                        name="Email"
+                                        name="email"
                                         placeholder="Annasmith@gmail.com"
                                         fullWidth
                                         size="small"
@@ -176,28 +185,29 @@ export default function Login() {
                                 Forgot Password?
                             </Typography>
                         </Box>
-                        <Link href="/">
-                            <Button
-                                fullWidth
-                                variant="contained"
-                                endIcon={<ArrowForwardIcon />}
-                                sx={{
-                                    mt: 2,
-                                    py: 1,
-                                    backgroundColor: '#000',
-                                    color: '#fff',
-                                    textTransform: 'uppercase',
-                                    fontWeight: 700,
-                                    borderRadius: 1,
-                                    letterSpacing: '0.1em',
-                                    '&:hover': {
-                                        backgroundColor: '#333'
-                                    }
-                                }}
-                            >
-                                Login
-                            </Button>
-                        </Link>
+
+                        <Button
+                            fullWidth
+                            onClick={handleLogin}
+                            variant="contained"
+                            endIcon={<ArrowForwardIcon />}
+                            sx={{
+                                mt: 2,
+                                py: 1,
+                                backgroundColor: '#000',
+                                color: '#fff',
+                                textTransform: 'uppercase',
+                                fontWeight: 700,
+                                borderRadius: 1,
+                                letterSpacing: '0.1em',
+                                '&:hover': {
+                                    backgroundColor: '#333'
+                                }
+                            }}
+                        >
+                            Login
+                        </Button>
+
 
                     </Paper>
                     <Typography variant="body2" color="text.secondary" sx={{ mt: 0.3 }}>

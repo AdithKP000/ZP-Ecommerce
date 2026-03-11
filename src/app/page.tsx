@@ -1,6 +1,6 @@
-import ItemsDisplay from "@/component_library/Items-display";
-import HeroCarousel from "../component_library/HeroCarousel";
-import CategoryBanner from "@/component_library/CategoryBanner";
+import ItemsDisplay from "@/component_library/items-display/Items-display";
+import HeroCarousel from "../component_library/homepage/HeroCarousel";
+import CategoryBanner from "@/component_library/homepage/CategoryBanner";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
@@ -9,7 +9,7 @@ import { Product, ProductResponse } from "../types/ProductTypes";
 import { Montserrat } from "next/font/google";
 import { IconButton } from "@mui/material";
 import { ArrowForward } from "@mui/icons-material";
-import Footer from "@/component_library/Footer";
+import Footer from "@/component_library/homepage/Footer";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 

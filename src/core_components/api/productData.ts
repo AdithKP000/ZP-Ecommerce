@@ -2,6 +2,7 @@ import axiosInstance from "../hooks/axios";
 import { Product, ProductResponse } from "../../types/ProductTypes";
 
 
+const api = axiosInstance(`${process.env.NEXT_PUBLIC_API_BASE_URL}`)
 
 const ALLOWED_CATEGORIES: Product["category"][] = [
     "beauty",
@@ -11,7 +12,7 @@ const ALLOWED_CATEGORIES: Product["category"][] = [
 
 export const getAllProducts = async (): Promise<ProductResponse[]> => {
     try {
-        const response = await axiosInstance.get<{ products: ProductResponse[] }>("/")
+        const response = await api.get<{ products: ProductResponse[] }>("/")
         if (!response) {
             throw new Error("Failed to fetch all products")
         }
@@ -26,7 +27,7 @@ export const getAllProducts = async (): Promise<ProductResponse[]> => {
 
 export const getFeaturedProducts = async (): Promise<ProductResponse[]> => {
     try {
-        const response = await axiosInstance.get<{ products: ProductResponse[] }>("/")
+        const response = await api.get<{ products: ProductResponse[] }>("/")
         if (!response) {
             throw new Error("Unable to fetch featured products")
         }
@@ -52,7 +53,7 @@ export const getFeaturedProducts = async (): Promise<ProductResponse[]> => {
 
 export const onSaleProducts = async (): Promise<ProductResponse[]> => {
     try {
-        const response = await axiosInstance.get<{ products: ProductResponse[] }>("/")
+        const response = await api.get<{ products: ProductResponse[] }>("/")
         if (!response) {
             throw new Error("Unable to fetch featured products")
         }
@@ -91,7 +92,7 @@ export const getProductsByCategory = async (slug: string): Promise<ProductRespon
 
     console.log((`/category/${encodeURIComponent(apiCategory)}`))
     try {
-        const response = await axiosInstance.get<{ products: ProductResponse[] }>(`/category/${encodeURIComponent(apiCategory)}`);
+        const response = await api.get<{ products: ProductResponse[] }>(`/category/${encodeURIComponent(apiCategory)}`);
         if (!response) throw new Error(`Unable to fetch category: ${apiCategory}`);
         return response.data.products;
     } catch (error) {
@@ -104,7 +105,7 @@ export const getProductsByCategory = async (slug: string): Promise<ProductRespon
 
 export const getAllNewProducts = async (): Promise<ProductResponse[]> => {
     try {
-        const response = await axiosInstance.get<{ products: ProductResponse[] }>("/")
+        const response = await api.get<{ products: ProductResponse[] }>("/")
         if (!response) {
             throw new Error("Failed to fetch all products")
         }
@@ -118,7 +119,7 @@ export const getAllNewProducts = async (): Promise<ProductResponse[]> => {
 
 export const getProductById = async (id: number): Promise<ProductResponse | null> => {
     try {
-        const response = await axiosInstance.get<ProductResponse>(`/${id}`);
+        const response = await api.get<ProductResponse>(`/${id}`);
         if (!response) throw new Error(`Failed to fetch product #${id}`);
         return response.data;
     } catch (error) {
@@ -129,9 +130,22 @@ export const getProductById = async (id: number): Promise<ProductResponse | null
 
 
 
+export const searchProducts = async (query: string): Promise<ProductResponse[]> => {
+    try {
+        console.log("Search querry " + encodeURIComponent(query))
+        const response = await api.get<{ products: ProductResponse[] }>(`/search?q=${encodeURIComponent(query)}`);
+        console.log(response.data.products)
+        if (!response) throw new Error(`Failed to search for: ${query}`);
+        return response.data.products;
+    } catch (error) {
+        console.error("Error searching products", error);
+        return [];
+    }
+}
+
 export const getFilteredProduct = async (category: string): Promise<ProductResponse | null> => {
     try {
-        const response = await axiosInstance.get<ProductResponse>(`/category/${category}`)
+        const response = await api.get<ProductResponse>(`/category/${category}`)
         if (!response) {
             throw new Error(`Failed to fetch product #${category}`);
         }

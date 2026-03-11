@@ -7,8 +7,8 @@ import IconButton from "@mui/material/IconButton";
 import Drawer from "@mui/material/Drawer";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { ProductResponse } from "@/types/ProductTypes";
-import { ProductCard } from "@/component_library/ProductCard";
-import ProductFilters, { FilterState, SortOption } from "@/component_library/ProductFilters";
+import { ProductCard } from "@/component_library/productcard/ProductCard";
+import ProductFilters, { FilterState, SortOption } from "@/component_library/filter/ProductFilters";
 
 interface Props {
     products: ProductResponse[];

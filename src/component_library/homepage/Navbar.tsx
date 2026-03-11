@@ -24,6 +24,8 @@ import { usePathname } from "next/navigation";
 import { useAppSelector } from "@/core_components/hooks/redux";
 import { useAuth } from "@/core_components/hooks/useAuth";
 import { Button } from "@mui/material";
+import { useState } from "react";
+import SearchComponent from "../search/SearchComponent";
 
 interface NavLink {
     label: string;
@@ -49,10 +51,10 @@ interface NavbarProps {
 
 export default function Navbar({ exclude = [] }: NavbarProps) {
     const pathname = usePathname();
-    const [drawerOpen, setDrawerOpen] = React.useState(false);
+    const [drawerOpen, setDrawerOpen] = useState(false);
     const cartItems = useAppSelector((state) => state.cart.items);
     const { user, isLoggedIn } = useAuth();
-
+    const [showSearch, setShowSearch] = useState(false)
     const isExcluded = exclude.some((path) => pathname === path);
     if (isExcluded) {
         return (
@@ -90,6 +92,7 @@ export default function Navbar({ exclude = [] }: NavbarProps) {
     const toggleDrawer = (open: boolean) => () => setDrawerOpen(open);
     return (
         <>
+            <SearchComponent open={showSearch} onClose={() => setShowSearch(false)} />
             <AppBar
                 position="sticky"
                 elevation={0}
@@ -162,7 +165,7 @@ export default function Navbar({ exclude = [] }: NavbarProps) {
 
 
                         {/* Search */}
-                        <IconButton size="small" aria-label="search" sx={{ color: "#333" }}>
+                        <IconButton size="small" aria-label="search" onClick={() => setShowSearch(true)} sx={{ color: "#333" }}>
                             <SearchIcon fontSize="small" />
                         </IconButton>
 
