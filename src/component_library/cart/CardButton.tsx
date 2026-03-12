@@ -1,7 +1,7 @@
 "use client"
 import IconButton from "@mui/material/IconButton";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { useAppSelector, useAppDispatch } from "@/core_components/hooks/redux";
+import { useAppSelector, useAppDispatch } from "@/core_components/hooks/redux"
 import { addToCart, removeFromCart } from "@/core_components/state/slices/cartSlice";
 import { ProductResponse } from "@/types/ProductTypes";
 

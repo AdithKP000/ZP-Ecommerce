@@ -63,6 +63,7 @@ export default function SearchComponent({ open, onClose }: SearchProps) {
             {/* Search Bar Row */}
             <Box
                 component="form"
+                role="search"
                 onSubmit={handleFormSubmit}
                 sx={{
                     display: 'flex',
@@ -74,6 +75,7 @@ export default function SearchComponent({ open, onClose }: SearchProps) {
             >
                 <TextField
                     fullWidth
+                    role="searchField"
                     variant="standard"
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}

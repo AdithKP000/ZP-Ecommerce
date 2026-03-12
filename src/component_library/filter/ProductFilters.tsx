@@ -48,7 +48,7 @@ export default function ProductFilters({
     };
 
     const handleRatingChange = (_: React.SyntheticEvent, value: number | null) => {
-        onFilterChange({ ...filters, minRating: value ?? 0 });
+        onFilterChange({ ...filters, minRating: value ?? 0.5 });
     };
 
     const handleSortChange = (e: SelectChangeEvent) => {
@@ -182,7 +182,7 @@ export default function ProductFilters({
                         valueLabelDisplay="auto"
                         min={0}
                         max={maxPrice}
-                        valueLabelFormat={(v) => `$${v}`}
+                        // valueLabelFormat={(v) => `$${v}`}
                         sx={{
                             color: "#111",
                             "& .MuiSlider-thumb": {
