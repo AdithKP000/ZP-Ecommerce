@@ -25,8 +25,7 @@ jest.mock("@mui/material/Rating", () => {
     };
 });
 
-// MUI Slider uses mouse position calculations that don't work in jsdom.
-// Mock it as a plain range input so we can fire change events in tests.
+
 jest.mock("@mui/material/Slider", () => {
     const React = require("react");
     return function MockSlider({ value, onChange, min, max }: {
@@ -50,7 +49,6 @@ jest.mock("@mui/material/Slider", () => {
     };
 });
 
-// ─── Shared test data ────────────────────────────────────────────────────────
 
 const mockAvailableCategories = ["beauty", "fragrances", "skincare"];
 const mockMaxPrice = 100;
@@ -62,7 +60,6 @@ const defaultFilters: FilterState = {
     sortBy: "default",
 };
 
-// ─── Helpers ─────────────────────────────────────────────────────────────────
 
 function renderFilters(
     filterOverrides: Partial<FilterState> = {},

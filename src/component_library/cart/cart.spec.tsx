@@ -73,6 +73,8 @@ const mockProduct: ProductResponse = {
 };
 
 describe("AddToCardButton Functionalities", () => {
+
+    //button render check
     it("renders the cart icon button", () => {
         const store = makeStore();
         render(
@@ -85,6 +87,7 @@ describe("AddToCardButton Functionalities", () => {
         expect(button).toBeInTheDocument();
     });
 
+    // chcheking whether it displayed add to cart when the item is not in cart
     it('shows "Add to cart" aria-label when product is NOT in cart', () => {
         const store = makeStore(); // empty cart
         render(
@@ -95,7 +98,7 @@ describe("AddToCardButton Functionalities", () => {
 
         expect(screen.getByRole("button", { name: /add to cart/i })).toBeInTheDocument();
     });
-
+    // checking whether it displayed remove from cart when the item is already in cart
     it('shows "Remove from cart" aria-label when product IS already in cart', () => {
         const store = makeStore({ items: [{ product: mockProduct, quantity: 1 }] });
         render(
@@ -107,6 +110,7 @@ describe("AddToCardButton Functionalities", () => {
         expect(screen.getByRole("button", { name: /remove from cart/i })).toBeInTheDocument();
     });
 
+    // checking whether the element is added to the cart when the button is clicked
     it("dispatches addToCart when clicking and product is NOT in cart", async () => {
         const store = makeStore();
         const dispatchSpy = jest.spyOn(store, "dispatch");
@@ -122,6 +126,7 @@ describe("AddToCardButton Functionalities", () => {
         expect(dispatchSpy).toHaveBeenCalledWith(addToCart(mockProduct));
     });
 
+    // checking whether the element is removed from the cart when the button is clicked again
     it("dispatches removeFromCart when clicking and product IS in cart", async () => {
         const store = makeStore({ items: [{ product: mockProduct, quantity: 1 }] });
         const dispatchSpy = jest.spyOn(store, "dispatch");
@@ -139,6 +144,7 @@ describe("AddToCardButton Functionalities", () => {
         expect(dispatched.some((action) => action.type === "cart/removeFromCart" && action.payload === mockProduct.id)).toBe(true);
     });
 
+    //checking wehther the Intended product or the current product was the one which was added to cart when the button was clicked
     it("adds the correct product to the store after clicking 'Add to cart'", async () => {
         const store = makeStore();
 
@@ -156,6 +162,8 @@ describe("AddToCardButton Functionalities", () => {
         expect(cartItems[0].quantity).toBe(1);
     });
 
+
+    // chckeing to see whether remvove from cart was rendered on the button when the product is already present and has a count of 2
     it("removes the product from the store after clicking 'Remove from cart'", async () => {
         const store = makeStore({ items: [{ product: mockProduct, quantity: 2 }] });
 
@@ -169,36 +177,42 @@ describe("AddToCardButton Functionalities", () => {
 
         expect(store.getState().cart.items).toHaveLength(0);
     });
+    // increase the quantity of the product in the cart
     it("addToCart increments quantity when product already exists in cart", () => {
         const store = makeStore({ items: [{ product: mockProduct, quantity: 1 }] });
         store.dispatch(addToCart(mockProduct));
         expect(store.getState().cart.items[0].quantity).toBe(2);
     });
 
+    //remove the product eniterly from the cart if the element is already present and has a count of 3
     it("removeFromCart removes the matching product by id", () => {
         const store = makeStore({ items: [{ product: mockProduct, quantity: 3 }] });
         store.dispatch(removeFromCart(mockProduct.id));
         expect(store.getState().cart.items).toHaveLength(0);
     });
 
+    // increament the quantity of the product in the cart
     it("incrementQuantity increases quantity by 1", () => {
         const store = makeStore({ items: [{ product: mockProduct, quantity: 1 }] });
         store.dispatch(incrementQuantity(mockProduct.id));
         expect(store.getState().cart.items[0].quantity).toBe(2);
     });
 
+    //decrement the quantity of the product in the cart if the element is already present and has a count of 3
     it("decrementQuantity reduces quantity by 1 when quantity > 1", () => {
         const store = makeStore({ items: [{ product: mockProduct, quantity: 3 }] });
         store.dispatch(decrementQuantity(mockProduct.id));
         expect(store.getState().cart.items[0].quantity).toBe(2);
     });
 
+    //decrement and remove the item frmo the cart if the count is less than 1
     it("decrementQuantity removes the item entirely when quantity is 1", () => {
         const store = makeStore({ items: [{ product: mockProduct, quantity: 1 }] });
         store.dispatch(decrementQuantity(mockProduct.id));
         expect(store.getState().cart.items).toHaveLength(0);
     });
 
+    // clear all button clears all the items from the cart
     it("clearCart empties all items", () => {
         const store = makeStore({ items: [{ product: mockProduct, quantity: 2 }] });
         store.dispatch(clearCart());

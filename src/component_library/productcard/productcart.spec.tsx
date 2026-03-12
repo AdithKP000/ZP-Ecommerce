@@ -69,7 +69,10 @@ const fullPriceProduct: ProductResponse = {
     category: "accessories",
 };
 
+// the major deferrence between this and Item-Display is that item display is used to render a group of imilar products this is for one product
+
 describe("All Product Display section", () => {
+    // checking to see whether the cart is rendered or not
     it("renders a card for a discounted product", () => {
         const store = makeStore();
         render(
@@ -81,6 +84,7 @@ describe("All Product Display section", () => {
         expect(screen.getByText(/Wireless Headphones/i)).toBeInTheDocument();
     });
 
+    //render item into cart
     it("renders a card for a full-price product", () => {
         const store = makeStore();
         render(
@@ -91,7 +95,7 @@ describe("All Product Display section", () => {
 
         expect(screen.getByText(/Leather Wallet/i)).toBeInTheDocument();
     });
-
+    // checking to see whether the category is displayed or not
     it("should display product category", () => {
         const store = makeStore();
         render(
@@ -101,7 +105,7 @@ describe("All Product Display section", () => {
         )
         expect(screen.getByText(/electronics/i)).toBeInTheDocument();
     })
-
+    // checking to see whether the discount badge is displayed or not
     it("should display the discount badge", () => {
         const store = makeStore()
         render(
@@ -112,6 +116,8 @@ describe("All Product Display section", () => {
         expect(screen.getByText(/-20%/i)).toBeInTheDocument();
 
     })
+
+    // if DiscountPercent is not available then dont show the badge
     it("Does not show discount badge when the discountPercentage is 0", () => {
         const store = makeStore()
         render(
@@ -124,7 +130,7 @@ describe("All Product Display section", () => {
     });
 
 
-
+    // renders the product image  
     it("renders a product image with the correct alt text", () => {
         const store = makeStore();
         render(
@@ -137,6 +143,7 @@ describe("All Product Display section", () => {
         expect(images).toBeInTheDocument();
     });
 
+    // checking to see whether the add to wishlist button is displayed or not
     it("renders an 'Add to wishlist' button for each product when wishlist is empty", () => {
         const store = makeStore();
         render(
@@ -147,6 +154,8 @@ describe("All Product Display section", () => {
         const wishlistBtns = screen.getByRole("button", { name: /add to wishlist/i });
         expect(wishlistBtns).toBeInTheDocument;
     })
+
+    // checking to see whether the add to cart button is displayed or not
     it("renders an 'Add to cart' button for each product when cart is empty", () => {
         const store = makeStore();
         render(
@@ -158,6 +167,8 @@ describe("All Product Display section", () => {
         const cartBtns = screen.getByRole("button", { name: /add to cart/i });
         expect(cartBtns).toBeInTheDocument();
     });
+
+    // checking to see whether the remove from wishlist button is displayed or not
     it("shows 'Remove from wishlist' when the product is already wishlisted", () => {
         const store = makeStore(
             { items: [] },
@@ -171,6 +182,8 @@ describe("All Product Display section", () => {
 
         expect(screen.getByRole("button", { name: /remove from wishlist/i })).toBeInTheDocument();
     });
+
+    // checking to see whether the remove from cart button is displayed or not
     it("shows 'Remove from cart' when the product is already in the cart", () => {
         const store = makeStore({ items: [{ product: discountedProduct, quantity: 1 }] });
         render(
@@ -182,6 +195,8 @@ describe("All Product Display section", () => {
         expect(screen.getByRole("button", { name: /remove from cart/i })).toBeInTheDocument();
     });
 
+
+    // checking to see whether the add to cart button adds the product to the cart store when clicked
     it("adds a product to the cart store when 'Add to cart' is clicked", async () => {
         const store = makeStore();
         render(
@@ -197,6 +212,7 @@ describe("All Product Display section", () => {
         expect(store.getState().cart.items[0].product.id).toBe(discountedProduct.id);
     });
 
+    // checking to see whether the product link is pointing to the correct url
     it("renders the product link pointing to /products/:id", () => {
         const store = makeStore();
         render(

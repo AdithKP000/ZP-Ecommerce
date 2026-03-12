@@ -72,6 +72,7 @@ const fullPriceProduct: ProductResponse = {
 
 
 describe("ItemsDisplay", () => {
+    //checking to see whether the card is rendered or not
     it("renders a card for every product passed in", () => {
         const store = makeStore();
         render(
@@ -84,6 +85,7 @@ describe("ItemsDisplay", () => {
         expect(screen.getAllByText(/Leather Wallet/i).length).toBeGreaterThanOrEqual(1);
     });
 
+    // checking to see whether the empty array is rendered or not
     it("renders nothing (empty) when given an empty products array", () => {
         const store = makeStore();
         const { container } = render(
@@ -96,6 +98,7 @@ describe("ItemsDisplay", () => {
         expect(screen.queryAllByRole("button")).toHaveLength(0);
     });
 
+    // checking to see whether the category is displayed or not
     it("displays the product category", () => {
         const store = makeStore();
         render(
@@ -107,6 +110,7 @@ describe("ItemsDisplay", () => {
         expect(screen.getAllByText(/electronics/i).length).toBeGreaterThanOrEqual(1);
     });
 
+    // checking to see whether the discounted price and strike-through original price is displayed or not
     it("shows the discounted price and strike-through original price for a discounted product", () => {
         const store = makeStore();
         render(
@@ -120,6 +124,7 @@ describe("ItemsDisplay", () => {
         expect(screen.getAllByText("$80.00").length).toBeGreaterThanOrEqual(1);
     });
 
+    // checking to see whether the regular price is displayed or not
     it("shows only the regular price when there is no discount", () => {
         const store = makeStore();
         render(
@@ -133,6 +138,7 @@ describe("ItemsDisplay", () => {
         expect(screen.queryAllByText("$0.00")).toHaveLength(0);
     });
 
+    // checking to see whether the discount badge percentage is displayed or not
     it("shows the discount badge percentage on a discounted product", () => {
         const store = makeStore();
         render(
@@ -144,7 +150,7 @@ describe("ItemsDisplay", () => {
         // badge text: -20%
         expect(screen.getAllByText(/-20%/i).length).toBeGreaterThanOrEqual(1);
     });
-
+    // not show the discount badge when the dicount percentage is 0
     it("does NOT show a discount badge when discountPercentage is 0", () => {
         const store = makeStore();
         render(
@@ -156,6 +162,7 @@ describe("ItemsDisplay", () => {
         expect(screen.queryByText(/-%/)).toBeNull();
     });
 
+    // show the item rating in text
     it("shows the rating value in text", () => {
         const store = makeStore();
         render(
@@ -168,6 +175,7 @@ describe("ItemsDisplay", () => {
         expect(screen.getAllByText(/4\.5 out of 5/i).length).toBeGreaterThanOrEqual(1);
     });
 
+    // checking whether the product image is rendered correctly
     it("renders a product image with the correct alt text", () => {
         const store = makeStore();
         render(
@@ -180,6 +188,7 @@ describe("ItemsDisplay", () => {
         expect(images.length).toBeGreaterThanOrEqual(1);
     });
 
+    // checking to see whether the add to wishlist  button is rendered 
     it("renders an 'Add to wishlist' button for each product when wishlist is empty", () => {
         const store = makeStore();
         render(
@@ -192,18 +201,7 @@ describe("ItemsDisplay", () => {
         expect(wishlistBtns.length).toBeGreaterThanOrEqual(1);
     });
 
-    it("renders an 'Add to cart' button for each product when cart is empty", () => {
-        const store = makeStore();
-        render(
-            <Provider store={store}>
-                <ItemsDisplay products={[discountedProduct]} />
-            </Provider>
-        );
-
-        const cartBtns = screen.getAllByRole("button", { name: /add to cart/i });
-        expect(cartBtns.length).toBeGreaterThanOrEqual(1);
-    });
-
+    // checking to see whether the remove from wishlist button is displayed or not
     it("shows 'Remove from wishlist' when the product is already wishlisted", () => {
         const store = makeStore(
             { items: [] },
@@ -218,17 +216,20 @@ describe("ItemsDisplay", () => {
         expect(screen.getAllByRole("button", { name: /remove from wishlist/i }).length).toBeGreaterThanOrEqual(1);
     });
 
-    it("shows 'Remove from cart' when the product is already in the cart", () => {
-        const store = makeStore({ items: [{ product: discountedProduct, quantity: 1 }] });
+    // checking to see whether the add to cart button is displayed or not
+    it("renders an 'Add to cart' button for each product when cart is empty", () => {
+        const store = makeStore();
         render(
             <Provider store={store}>
                 <ItemsDisplay products={[discountedProduct]} />
             </Provider>
         );
 
-        expect(screen.getAllByRole("button", { name: /remove from cart/i }).length).toBeGreaterThanOrEqual(1);
+        const cartBtns = screen.getAllByRole("button", { name: /add to cart/i });
+        expect(cartBtns.length).toBeGreaterThanOrEqual(1);
     });
 
+    // checking that the product is aded to cart when the button is clicked
     it("adds a product to the cart store when 'Add to cart' is clicked", async () => {
         const store = makeStore();
         render(
@@ -244,6 +245,20 @@ describe("ItemsDisplay", () => {
         expect(store.getState().cart.items[0].product.id).toBe(discountedProduct.id);
     });
 
+    // checking to see whether the remove from cart button is displayed or not
+    it("shows 'Remove from cart' when the product is already in the cart", () => {
+        const store = makeStore({ items: [{ product: discountedProduct, quantity: 1 }] });
+        render(
+            <Provider store={store}>
+                <ItemsDisplay products={[discountedProduct]} />
+            </Provider>
+        );
+
+        expect(screen.getAllByRole("button", { name: /remove from cart/i }).length).toBeGreaterThanOrEqual(1);
+    });
+
+
+    // product image rendering check
     it("renders the product link pointing to /products/:id", () => {
         const store = makeStore();
         render(

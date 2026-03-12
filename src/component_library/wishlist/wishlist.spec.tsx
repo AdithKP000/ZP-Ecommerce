@@ -64,6 +64,7 @@ const mockProduct: ProductResponse = {
 };
 
 describe("Wishlist button functionalities", () => {
+    // button render check
     it("Cheching to see whether the wishlist button is rendered", () => {
         const store = makeStore();
         render(
@@ -75,6 +76,8 @@ describe("Wishlist button functionalities", () => {
         const button = screen.getByRole("button");
         expect(button).toBeInTheDocument();
     })
+
+    //checking to see whether it displayes add to wishlist when the product is not already on wishlist
     it('shows "add to wishlist"  on the aria-label when no products are added in the wishlist', async () => {
         const store = makeStore();
         render(
@@ -86,6 +89,7 @@ describe("Wishlist button functionalities", () => {
         const button = screen.getByRole("button", { name: /add to wishlist/i })
         expect(button).toBeInTheDocument();
     })
+    //checking to see whether it displayes remove from wishlist when the product is already on wishlist
     it('shows "remove from wishlist" when the item is already present ', () => {
         const store = makeStore({ items: [mockProduct] })
         render(
@@ -97,7 +101,7 @@ describe("Wishlist button functionalities", () => {
         const button = screen.getByRole("button", { name: /remove from wishlist/i })
         expect(button).toBeInTheDocument();
     })
-
+    // checking whether the the element is added to the wishlist when the button is checked
     it("dispacthes addtoWishlist when clicking the button", async () => {
         const store = makeStore();
         const dispatchSpy = jest.spyOn(store, "dispatch")
@@ -110,6 +114,8 @@ describe("Wishlist button functionalities", () => {
         await userEvent.click(screen.getByRole("button"));
         expect(dispatchSpy).toHaveBeenCalledWith(addToWishList(mockProduct));
     })
+
+    // checking the whether the element is removed from the wishlist when the button is clicked again
     it("dispatches removeFromWishlist when clickin the button the second time  ", async () => {
         const store = makeStore({ items: [mockProduct] });
         const dispatchSpy = jest.spyOn(store, "dispatch");
