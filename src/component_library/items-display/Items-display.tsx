@@ -16,9 +16,9 @@ function StarRow({ rating }: { rating: number }) {
     return (
         <Box sx={{ display: "flex", alignItems: "center", gap: 0.25 }}>
             {[1, 2, 3, 4, 5].map((i) => {
-                if (rating >= i) return <StarIcon key={i} sx={{ fontSize: 14, color: "#f5a623" }} />;
-                if (rating >= i - 0.5) return <StarHalfIcon key={i} sx={{ fontSize: 14, color: "#f5a623" }} />;
-                return <StarOutlineIcon key={i} sx={{ fontSize: 14, color: "#f5a623" }} />;
+                if (rating >= i) return <StarIcon key={i} sx={{ fontSize: 14, color: "fontColor.itemDisplay" }} />;
+                if (rating >= i - 0.5) return <StarHalfIcon key={i} sx={{ fontSize: 14, color: "fontColor.itemDisplay" }} />;
+                return <StarOutlineIcon key={i} sx={{ fontSize: 14, color: "fontColor.itemDisplay" }} />;
             })}
         </Box>
     );
@@ -50,7 +50,7 @@ function ProductCard({ product }: { product: ProductResponse }) {
                 className="card-img-wrap"
                 sx={{
                     position: "relative",
-                    bgcolor: "#f5f5f5",
+                    bgcolor: "bg.light",
                     borderRadius: "14px",
                     overflow: "hidden",
                     aspectRatio: "1 / 1",
@@ -66,7 +66,7 @@ function ProductCard({ product }: { product: ProductResponse }) {
                             position: "absolute",
                             top: 10,
                             left: 10,
-                            bgcolor: "#e53935",
+                            bgcolor: "warning.main",
                             color: "white",
                             borderRadius: "20px",
                             px: 1,
@@ -110,7 +110,7 @@ function ProductCard({ product }: { product: ProductResponse }) {
                 {/* stars + review count */}
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.75, mb: 0.5 }}>
                     <StarRow rating={product.rating} />
-                    <Typography variant="caption" sx={{ color: "#666", fontSize: "0.7rem" }}>
+                    <Typography variant="caption" sx={{ color: "fontColor.itemText", fontSize: "0.7rem" }}>
                         - {product.rating.toFixed(1)} out of 5
                     </Typography>
                 </Box>
@@ -118,7 +118,7 @@ function ProductCard({ product }: { product: ProductResponse }) {
                 <Typography
                     variant="caption"
                     sx={{
-                        color: "#888",
+                        color: "fontColor.itemTextV2",
                         fontSize: "0.68rem",
                         textTransform: "uppercase",
                         letterSpacing: "0.03em",
@@ -140,7 +140,7 @@ function ProductCard({ product }: { product: ProductResponse }) {
                         lineHeight: 1.35,
                         fontSize: "0.82rem",
                         mb: 0.75,
-                        color: "#111",
+                        color: "fontColor.body",
                     }}
                 >
                     {product.title}
@@ -153,7 +153,7 @@ function ProductCard({ product }: { product: ProductResponse }) {
                                 variant="caption"
                                 sx={{
                                     textDecoration: "line-through",
-                                    color: "#aaa",
+                                    color: "fontColor.itemTextV1",
                                     fontSize: "0.78rem",
                                 }}
                             >
@@ -162,7 +162,7 @@ function ProductCard({ product }: { product: ProductResponse }) {
                             <Typography
                                 variant="body2"
                                 fontWeight={700}
-                                sx={{ color: "#e53935", fontSize: "0.88rem" }}
+                                sx={{ color: "warning.main", fontSize: "0.88rem" }}
                             >
                                 ${discountedPrice}
                             </Typography>

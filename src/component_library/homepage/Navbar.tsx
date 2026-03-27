@@ -77,7 +77,7 @@ export default function Navbar({ exclude = [] }: NavbarProps) {
                                 mt: 1,
                                 fontSize: { xs: "2rem", sm: "2rem", lg: '3rems' },
                                 letterSpacing: { xs: 3, sm: 5 },
-                                color: "#111",
+                                color: "fontColor.header",
 
                             }}
                         >
@@ -97,7 +97,7 @@ export default function Navbar({ exclude = [] }: NavbarProps) {
                 position="sticky"
                 elevation={0}
                 sx={{
-                    backgroundColor: "#fff",
+                    backgroundColor: "bg.white",
                     color: "#111",
                     borderBottom: "1px solid rgba(0,0,0,0.09)",
                     top: 0,
@@ -217,15 +217,15 @@ export default function Navbar({ exclude = [] }: NavbarProps) {
                             <Link href="/user/auth/signup">
                                 <Button sx={{
                                     mt: 1,
-                                    bgcolor: "#E8651C",
+                                    bgcolor: "bg.signup",
                                     borderRadius: "10px",
                                     px: 1.5,
                                     py: 0.5,
-                                    color: "#fff",
+                                    color: "fontColor.white",
                                     textTransform: "none",
                                     fontWeight: 600,
                                     boxShadow: "none",
-                                    "&:hover": { bgcolor: "#d05a16", boxShadow: "none" },
+                                    "&:hover": { bgcolor: "hover.signup", boxShadow: "none" },
                                 }}>
                                     Signup
                                 </Button>
@@ -256,7 +256,7 @@ export default function Navbar({ exclude = [] }: NavbarProps) {
                                     py: 1,
                                     fontSize: { md: "0.78rem", lg: "0.85rem" },
                                     fontWeight: 400,
-                                    color: link.highlight ? "#e53935" : "#222",
+                                    color: link.highlight ? "fontColor.navlink" : "fontColor.header",
                                     whiteSpace: "nowrap",
                                     cursor: "pointer",
                                     position: "relative",
@@ -270,11 +270,11 @@ export default function Navbar({ exclude = [] }: NavbarProps) {
                                         transform: "translateX(-50%)",
                                         width: 0,
                                         height: "1.5px",
-                                        backgroundColor: link.highlight ? "#e53935" : "#111",
+                                        backgroundColor: link.highlight ? "fontColor.navlink" : "fontColor.header",
                                         transition: "width 0.25s ease",
                                     },
                                     "&:hover": {
-                                        color: link.highlight ? "#c62828" : "#000",
+                                        color: link.highlight ? "hover.navlink" : "fontColor.navlink",
                                     },
                                     "&:hover::after": {
                                         width: "70%",
@@ -331,7 +331,7 @@ export default function Navbar({ exclude = [] }: NavbarProps) {
                                 sx={{
                                     px: 3,
                                     py: 1.2,
-                                    "&:hover": { backgroundColor: "rgba(0,0,0,0.04)" },
+                                    "&:hover": { backgroundColor: "bg.contrastText" },
                                 }}
                             >
                                 <ListItemText
@@ -341,7 +341,7 @@ export default function Navbar({ exclude = [] }: NavbarProps) {
                                             sx: {
                                                 fontSize: "0.95rem",
                                                 fontWeight: link.highlight ? 600 : 400,
-                                                color: link.highlight ? "#e53935" : "#222",
+                                                color: link.highlight ? "warning.main" : "fontColor.header",
                                             },
                                         },
                                     }}

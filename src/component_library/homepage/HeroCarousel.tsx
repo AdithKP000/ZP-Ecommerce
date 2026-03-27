@@ -85,7 +85,7 @@ export default function HeroCarousel() {
                 minHeight: { xs: 400, sm: 340, md: 420 },
                 maxHeight: { xs: 600, sm: 520, md: 600 },
                 overflow: "hidden",
-                backgroundColor: "#111",
+                backgroundColor: "dark.main",
             }}
         >
             {/* Slides */}
@@ -150,7 +150,7 @@ export default function HeroCarousel() {
                         size="small"
                         sx={{
                             mb: 2,
-                            backgroundColor: "#1111d4",
+                            backgroundColor: "warning.dark",
                             color: "white",
                             fontWeight: 700,
                             fontSize: "0.65rem",
@@ -196,7 +196,7 @@ export default function HeroCarousel() {
                         variant="contained"
                         size="medium"
                         sx={{
-                            backgroundColor: "#1111d4",
+                            backgroundColor: "primary.dark",
                             color: "white",
                             fontWeight: 700,
                             px: 3,
@@ -205,7 +205,7 @@ export default function HeroCarousel() {
                             textTransform: "none",
                             fontSize: "0.9rem",
                             "&:hover": {
-                                backgroundColor: "#0d0db0",
+                                backgroundColor: "hover.cta",
                             },
                         }}
                     >
@@ -273,7 +273,7 @@ export default function HeroCarousel() {
                             width: i === current ? 22 : 8,
                             height: 8,
                             borderRadius: "4px",
-                            backgroundColor: i === current ? "white" : "rgba(255,255,255,0.5)",
+                            backgroundColor: i === current ? "primary.contrastText" : "rgba(255,255,255,0.5)",
                             transition: "all 0.3s ease",
                             cursor: "pointer",
                         }}

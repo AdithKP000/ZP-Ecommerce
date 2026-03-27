@@ -6,7 +6,7 @@ export default function Footer() {
     return (
         <>
             < Box sx={{
-                backgroundColor: "#f2f2f2ff", color: "#000",
+                backgroundColor: "bg.light", color: "secondary.contrastText",
                 p: 2,
 
             }}>
@@ -25,7 +25,7 @@ export default function Footer() {
                             pb: 0,
                             fontSize: { xs: "2rem", sm: "2rem", lg: '3rems' },
                             letterSpacing: { xs: 3, sm: 5 },
-                            color: "#111",
+                            color: "warning.dark",
 
                         }}
                     >
@@ -35,7 +35,7 @@ export default function Footer() {
                         fontWeight: 500,
                         mt: 0,
                         fontSize: { xs: "1rem", sm: "1rem", lg: '1.5rems' },
-                        color: "#616060ff",
+                        color: "fontColor.footer",
 
                     }}>
                         Yuor Online Cosmetics Store
@@ -49,7 +49,7 @@ export default function Footer() {
                     flexDirection: "row",
                     gap: { xs: 1, sm: 2, md: 3, lg: 10 },
                     mt: 3,
-                    color: "#616060ff",
+                    color: "fontColor.footer",
                 }}>
                     <Typography>About</Typography>
                     <Typography>Shop</Typography>
@@ -65,7 +65,7 @@ export default function Footer() {
                     flexDirection: "row",
                     gap: 13,
                     mt: 3,
-                    color: "#616060ff",
+                    color: "fontColor.footer",
                 }}>
                     <Typography sx={{
                         fontSize: '0.8rem'

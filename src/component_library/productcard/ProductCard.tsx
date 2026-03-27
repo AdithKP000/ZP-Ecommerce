@@ -14,9 +14,9 @@ export function StarRow({ rating }: { rating: number }) {
     return (
         <Box sx={{ display: "flex", alignItems: "center", gap: 0.25 }}>
             {[1, 2, 3, 4, 5].map((i) => {
-                if (rating >= i) return <StarIcon key={i} sx={{ fontSize: 14, color: "#f5a623" }} />;
-                if (rating >= i - 0.5) return <StarHalfIcon key={i} sx={{ fontSize: 14, color: "#f5a623" }} />;
-                return <StarOutlineIcon key={i} sx={{ fontSize: 14, color: "#f5a623" }} />;
+                if (rating >= i) return <StarIcon key={i} sx={{ fontSize: 14, color: "fontColor.itemDisplay" }} />;
+                if (rating >= i - 0.5) return <StarHalfIcon key={i} sx={{ fontSize: 14, color: "fontColor.itemDisplay" }} />;
+                return <StarOutlineIcon key={i} sx={{ fontSize: 14, color: "fontColor.itemDisplay" }} />;
             })}
         </Box>
     );
@@ -40,7 +40,7 @@ export function ProductCard({ product }: { product: ProductResponse }) {
                 className="card-img-wrap"
                 sx={{
                     position: "relative",
-                    bgcolor: "#f5f5f5",
+                    bgcolor: "bg.product",
                     borderRadius: "14px",
                     overflow: "hidden",
                     aspectRatio: "1 / 1",
@@ -57,7 +57,7 @@ export function ProductCard({ product }: { product: ProductResponse }) {
                             position: "absolute",
                             top: 10,
                             left: 10,
-                            bgcolor: "#e53935",
+                            bgcolor: "warning.main",
                             color: "white",
                             borderRadius: "20px",
                             px: 1,
@@ -101,7 +101,7 @@ export function ProductCard({ product }: { product: ProductResponse }) {
                 {/* stars + review count */}
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.75, mb: 0.5 }}>
                     <StarRow rating={product.rating} />
-                    <Typography variant="caption" sx={{ color: "#666", fontSize: "0.7rem" }}>
+                    <Typography variant="caption" sx={{ color: "fontColor.itemTextV1", fontSize: "0.7rem" }}>
                         - {product.reviews.length} reviews
                     </Typography>
                 </Box>
@@ -110,7 +110,7 @@ export function ProductCard({ product }: { product: ProductResponse }) {
                 <Typography
                     variant="caption"
                     sx={{
-                        color: "#888",
+                        color: "fontColor.itemTextV2",
                         fontSize: "0.68rem",
                         textTransform: "uppercase",
                         letterSpacing: "0.03em",
@@ -133,7 +133,7 @@ export function ProductCard({ product }: { product: ProductResponse }) {
                         lineHeight: 1.35,
                         fontSize: "0.82rem",
                         mb: 0.75,
-                        color: "#111",
+                        color: "warning.dark",
                     }}
                 >
                     {product.title}

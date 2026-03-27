@@ -68,7 +68,7 @@ export default function SearchComponent({ open, onClose }: SearchProps) {
                 sx={{
                     display: 'flex',
                     alignItems: 'center',
-                    borderBottom: '2px solid #E8651C',
+                    borderBottom: '2px solid bg.signup',
                     pb: 1,
                     mb: 4
                 }}
@@ -85,7 +85,7 @@ export default function SearchComponent({ open, onClose }: SearchProps) {
                         disableUnderline: true,
                         startAdornment: (
                             <InputAdornment position="start">
-                                <SearchIcon sx={{ color: '#E8651C', fontSize: 28, mr: 1 }} />
+                                <SearchIcon sx={{ color: 'bg.signup', fontSize: 28, mr: 1 }} />
                             </InputAdornment>
                         ),
                         sx: {
@@ -107,8 +107,8 @@ export default function SearchComponent({ open, onClose }: SearchProps) {
             <Grid container spacing={4}>
                 <Grid size={{ xs: 12, md: 6 }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                        <HistoryIcon sx={{ color: '#E8651C', mr: 1, fontSize: 18 }} />
-                        <Typography variant="overline" sx={{ fontWeight: 700, color: '#E8651C', letterSpacing: 1.5 }}>
+                        <HistoryIcon sx={{ color: 'bg.signup', mr: 1, fontSize: 18 }} />
+                        <Typography variant="overline" sx={{ fontWeight: 700, color: 'bg.signup', letterSpacing: 1.5 }}>
                             RECENT SEARCHES
                         </Typography>
                     </Box>
