@@ -16,6 +16,7 @@ declare module '@mui/material/styles' {
         searchBar?: {
             bg?: string;
             bgHover?: string;
+            border?: string;
         };
 
         dark?: PaletteColorOptions
